@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQtoSPARQL", "LINQtoSPARQL\LINQtoSPARQL.csproj", "{84DFBDFB-837E-4A0B-9C40-99EFB8B2B2BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQtoSPARQL.Tests", "LINQtoSPARQL.Tests\LINQtoSPARQL.Tests.csproj", "{9374DFA3-91AF-42B1-A4D6-1A83F11097DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84DFBDFB-837E-4A0B-9C40-99EFB8B2B2BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84DFBDFB-837E-4A0B-9C40-99EFB8B2B2BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84DFBDFB-837E-4A0B-9C40-99EFB8B2B2BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84DFBDFB-837E-4A0B-9C40-99EFB8B2B2BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9374DFA3-91AF-42B1-A4D6-1A83F11097DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9374DFA3-91AF-42B1-A4D6-1A83F11097DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9374DFA3-91AF-42B1-A4D6-1A83F11097DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9374DFA3-91AF-42B1-A4D6-1A83F11097DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
