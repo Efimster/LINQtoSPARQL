@@ -5,11 +5,21 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using HelperExtensionsLibrary.Strings;
 
 namespace LINQtoSPARQLSpace
 {
     public static partial class LINQtoSPARQLExtensions
     {
+        /// <summary>
+        /// Either expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="S">subject</param>
+        /// <param name="P">predicate</param>
+        /// <param name="O">object</param>
+        /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Either<T>(this ISPARQLQueryable<T> source, string S, string P, string O)
         {
             if (source == null)
@@ -21,12 +31,42 @@ namespace LINQtoSPARQLSpace
                 new Expression[] { source.Expression, Expression.Constant(S, typeof(string)), Expression.Constant(P), Expression.Constant(O) }));
         }
 
-        public static ISPARQLMatchedQueryable<T> OR<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
+        /// <summary>
+        /// Either expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="triple">triple</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> Either<T>(this ISPARQLQueryable<T> source, string triple)
         {
-            return (ISPARQLMatchedQueryable<T>)OR<T>((ISPARQLQueryable<T>)source, S, P, O);
+            var nodes = triple.SplitExt(" ").ToArray();
+            return source.Either(S: nodes[0], P: nodes[1], O: nodes[2]);
         }
 
-        private static ISPARQLQueryable<T> OR<T>(this ISPARQLQueryable<T> source, string S, string P, string O)
+        /// <summary>
+        /// Or expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="S">subject</param>
+        /// <param name="P">predicate</param>
+        /// <param name="O">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Or<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
+        {
+            return (ISPARQLMatchedQueryable<T>)Or<T>((ISPARQLQueryable<T>)source, S, P, O);
+        }
+        /// <summary>
+        /// Or expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="S">subject</param>
+        /// <param name="P">predicate</param>
+        /// <param name="O">object</param>
+        /// <returns>query</returns>
+        private static ISPARQLQueryable<T> Or<T>(this ISPARQLQueryable<T> source, string S, string P, string O)
         {
             if (source == null)
             {
@@ -35,6 +75,19 @@ namespace LINQtoSPARQLSpace
 
             return source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression, Expression.Constant(S, typeof(string)), Expression.Constant(P), Expression.Constant(O) }));
+        }
+
+        /// <summary>
+        /// Or expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="triple">triple</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Or<T>(this ISPARQLUnionQueryable<T> source, string triple)
+        {
+            var nodes = triple.SplitExt(" ").ToArray();
+            return source.Or(S: nodes[0], P: nodes[1], O: nodes[2]);
         }
     }
 }
