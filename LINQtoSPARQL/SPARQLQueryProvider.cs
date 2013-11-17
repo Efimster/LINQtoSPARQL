@@ -40,16 +40,16 @@ namespace LINQtoSPARQLSpace
             var translator = this.Translate(expression);
             dynamic dyno = Dyno;
 
-            var prefixes = new[] {
-                SPARQL.Prefix(Prefix:"el:", IRI: "http://my.web/catalogues/elements#" )
-            };
-
             foreach(var res in Dyno.Select<T>(
-                   prefixes: prefixes,
+                   prefixes: translator.Prefixes,
                     projection: translator.SelectClause,
                     where: translator.WhereClause,
+                    groupBy:translator.GroupByClause,
+                    having:translator.HavingClause,
                     orderBy: translator.OrderByClause,
-                    limit: translator.LimitClause.ToString()))
+                    limit: translator.LimitClause.ToString(),
+                    offset: translator.OffsetClause.ToString())
+                )
             {
                 yield return res;
             }
@@ -59,7 +59,7 @@ namespace LINQtoSPARQLSpace
         {
             var translator = this.Translate(expression);
             
-            string query = new string[] { translator.Prefixes,
+            string query = new string[] { translator.Prefixes.GetPrefixesString(),
                 translator.SelectClause,
                 translator.WhereClause.ToString(),
                 translator.GroupByClause,

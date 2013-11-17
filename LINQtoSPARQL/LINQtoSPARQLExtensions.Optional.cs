@@ -21,5 +21,10 @@ namespace LINQtoSPARQLSpace
             return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression, Expression.Constant(S, typeof(string)), Expression.Constant(P), Expression.Constant(O) }));
         }
+
+        public static ISPARQLUnionQueryable<T> Optional<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
+        {
+            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Optional<T>(S, P, O);
+        }
     }
 }

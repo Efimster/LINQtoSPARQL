@@ -8,7 +8,12 @@ namespace LINQtoSPARQLSpace
 {
     public static partial class LINQtoSPARQLExtensions
     {
-
+        /// <summary>
+        /// Close group expression. 
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <returns>query</returns>
         public static ISPARQLQueryable<T> End<T>(this ISPARQLQueryable<T> source)
         {
             if (source == null)
@@ -20,21 +25,12 @@ namespace LINQtoSPARQLSpace
                 new Expression[] { source.Expression}));
         }
 
-
-
-        public static ISPARQLMatchedQueryable<T> FilterBy<T>(this ISPARQLQueryable<T> source, string filter)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-
-            return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
-                new Expression[] { source.Expression, Expression.Constant(filter, typeof(string))}));
-        }
-
-
-
+        /// <summary>
+        /// Group expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <returns>query</returns>
         public static ISPARQLMatchedQueryable<T> Group<T>(this ISPARQLQueryable source)
         {
             if (source == null)
@@ -46,55 +42,13 @@ namespace LINQtoSPARQLSpace
                 new Expression[] { source.Expression }));
         }
 
-        public static IEnumerable<dynamic> Execute(this ISPARQLQueryable source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-
-            return (IEnumerable<dynamic>)source.Provider.Execute(source.Expression);
-        }
-
-        #region intellisense helpers
-
-        #region ISPARQLUnionQueryable
-
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
-        {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Match<T>(S, P, O);
-        }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
-        {
-            return (ISPARQLUnionQueryable<T>)source.Match<T>(S, P, O);
-        }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string P, string O)
-        {
-            return (ISPARQLUnionQueryable<T>)source.And_2<T>(P, O);
-        }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string O)
-        {
-            return (ISPARQLUnionQueryable<T>)source.And_1<T>(O);
-        }
-
-        public static ISPARQLUnionQueryable<T> FilterBy<T>(this ISPARQLUnionQueryable<T> source, string filter)
-        {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).FilterBy<T>(filter);
-        }
-
-        public static ISPARQLUnionQueryable<T> Optional<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
-        {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Optional<T>(S, P, O);
-        }
-
-        #endregion
-
-
-        #endregion
-
+        /// <summary>
+        /// Select expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="items"></param>
+        /// <returns>query</returns>
         public static ISPARQLQueryable<T> Select<T>(this ISPARQLQueryable<T> source, params string[] items)
         {
             if (source == null)
@@ -104,12 +58,23 @@ namespace LINQtoSPARQLSpace
                 return source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                     new Expression[] { source.Expression, Expression.Constant(items, typeof(string[]))}));
         }
-
+        /// <summary>
+        /// Select expression. Projection
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <returns>query</returns>
         public static ISPARQLQueryable<T> Select<T>(this ISPARQLQueryable<T> source)
         {
             return source.Select(typeof(T));
         }
-
+        /// <summary>
+        /// Select expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="type">element type</param>
+        /// <returns>query</returns>
         private static ISPARQLQueryable<T> Select<T>(this ISPARQLQueryable<T> source, Type type)
         {
             if (source == null)
@@ -119,7 +84,13 @@ namespace LINQtoSPARQLSpace
                 new Expression[] { source.Expression, Expression.Constant(type) }));
         }
 
-
+        /// <summary>
+        /// Order By Expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="orderBy">order by  string expression</param>
+        /// <returns>query</returns>
         public static ISPARQLQueryable<T> OrderBy<T>(this ISPARQLQueryable<T> source, string orderBy)
         {
             if (source == null)
@@ -129,6 +100,13 @@ namespace LINQtoSPARQLSpace
                 new Expression[] { source.Expression, Expression.Constant(orderBy)}));
         }
 
+        /// <summary>
+        /// Limit expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="number">limit number</param>
+        /// <returns>query</returns>
         public static ISPARQLQueryable<T> Limit<T>(this ISPARQLQueryable<T> source, int number)
         {
             if (source == null)
@@ -138,13 +116,34 @@ namespace LINQtoSPARQLSpace
                 new Expression[] { source.Expression, Expression.Constant(number) }));
         }
 
-
+        /// <summary>
+        /// Converts to IEnumerable. Bridge to LINQ to Object
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <returns>enumeration</returns>
         public static IEnumerable<T> AsEnumerable<T>(this ISPARQLQueryable<T> source)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
 
             return (IEnumerable<T>)source.Provider.ExecuteEnumerable<T>(source.Expression);
+        }
+        /// <summary>
+        /// Prefix expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="prefix">prefix</param>
+        /// <param name="iri">iri</param>
+        /// <returns>query</returns>
+        public static ISPARQLQueryable<T> Prefix<T>(this ISPARQLQueryable<T> source, string prefix, string iri)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            return source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+                new Expression[] { source.Expression, Expression.Constant(prefix), Expression.Constant(iri) }));
         }
 
 

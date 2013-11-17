@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using DynamicSPARQLSpace;
 
 namespace LINQtoSPARQLSpace
 {
@@ -12,6 +13,11 @@ namespace LINQtoSPARQLSpace
     {
         protected SPARQLQueryProvider provider;
         protected Expression expression;
+
+        public SPARQLQuery(DynamicSPARQL dyno)
+            : this(new SPARQLQueryProvider(dyno))
+        {
+        }
 
         public SPARQLQuery(SPARQLQueryProvider provider)
         {
@@ -50,6 +56,11 @@ namespace LINQtoSPARQLSpace
         Expression ISPARQLQueryable.Expression
         {
             get { return this.expression; }
+        }
+
+        public override string ToString()
+        {
+            return provider.GetQueryText(expression);
         }
     }
 

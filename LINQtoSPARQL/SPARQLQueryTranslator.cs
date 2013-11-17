@@ -14,19 +14,39 @@ namespace LINQtoSPARQLSpace
     {
         private LinkedList<IList<IWhereItem>> Groups {get; set;}
         private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "OR"};
-
+        /// <summary>
+        /// Where clause
+        /// </summary>
         public Group WhereClause { get; private set; }
+        /// <summary>
+        /// Select clause
+        /// </summary>
         public string SelectClause { get; private set; }
+        /// <summary>
+        /// Order By clause
+        /// </summary>
         public string OrderByClause { get; private set; }
-        public int LimitClause { get; private set; }
-        public string Prefixes { get; private set; }
+        /// <summary>
+        /// Limit clause
+        /// </summary>
+        public int? LimitClause { get; private set; }
+        /// <summary>
+        /// SPARQL prefixes 
+        /// </summary>
+        public IList<Prefix> Prefixes { get; private set; }
+        /// <summary>
+        /// Group By clause
+        /// </summary>
         public string GroupByClause { get; private set; }
+        /// <summary>
+        /// Having clause
+        /// </summary>
         public string HavingClause { get; private set; }
-        public string OffsetClause { get; private set; }
+        /// <summary>
+        /// Offset clause
+        /// </summary>
+        public int? OffsetClause { get; private set; }
 
-        internal SPARQLQueryTranslator()
-        {
-        }
 
         internal void Translate(Expression expression)
         {
@@ -34,6 +54,7 @@ namespace LINQtoSPARQLSpace
             Groups.AddLast(new Group() { Items = new List<IWhereItem>() });
             WhereClause = null;
             SelectClause = null;
+            Prefixes = new List<Prefix>(5);
             this.Visit(expression);
             WhereClause = (Group)Groups.Last.Value;
             if (SelectClause != null)
@@ -42,15 +63,13 @@ namespace LINQtoSPARQLSpace
             SelectClause = GetSelectByTypeArgument(((MethodCallExpression)expression).Method.GetGenericArguments()[0]);
 
         }
-
+        /// <summary>
+        /// Visits any method call expression
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         protected override Expression VisitMethodCall(MethodCallExpression m)
         {
-            if (m.Method.DeclaringType == typeof(Queryable) && m.Method.Name == "Cast")
-            {
-                this.Visit(m.Arguments[0]);
-                return m;
-            }
-
             if (m.Method.DeclaringType != typeof(LINQtoSPARQLExtensions))
                 throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
 
@@ -60,7 +79,11 @@ namespace LINQtoSPARQLSpace
             return m;
 
         }
-
+        /// <summary>
+        /// Visit LINQtoSPARQL expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <param name="level">expression group level</param>
         private void VisitSPARQL(MethodCallExpression m, int level = 0)
         {
 
@@ -163,6 +186,12 @@ namespace LINQtoSPARQLSpace
                 LimitClause = VisitLimit(m);
             }
 
+            else if (name == "Prefix")
+            {
+                VisitPrefix(m);
+            }
+
+
             if (ret == null)
                 return;
             
@@ -179,7 +208,11 @@ namespace LINQtoSPARQLSpace
                 ret = group[0];
             }
         }
-
+        /// <summary>
+        /// Evaluates Match expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitMatch(MethodCallExpression m)
         {
             var tripple = SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
@@ -187,10 +220,10 @@ namespace LINQtoSPARQLSpace
             return tripple;
         }
         /// <summary>
-        /// Evaluates And with one parameter
+        /// Evaluates And expression with one parameter
         /// </summary>
         /// <param name="m">method call expression</param>
-        /// <returns>expression</returns>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitAnd1(MethodCallExpression m, IList<IWhereItem> list)
         {
             var prev = (Triple)list[list.Count - 1];
@@ -201,10 +234,10 @@ namespace LINQtoSPARQLSpace
             return null;
         }
         /// <summary>
-        /// Evaluates And with two parameters
+        /// Evaluates And expression with two parameters
         /// </summary>
         /// <param name="m">method call expression</param>
-        /// <returns>expression</returns>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitAnd2(MethodCallExpression m, IList<IWhereItem> list)
         {
             var prev = (Triple)list[list.Count - 1];
@@ -212,7 +245,11 @@ namespace LINQtoSPARQLSpace
 
             return null;
         }
-
+        /// <summary>
+        /// Evaluates Optional expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitOptional(MethodCallExpression m)
         {
             var tripple = SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
@@ -220,13 +257,21 @@ namespace LINQtoSPARQLSpace
                          
             return new Optional(tripple);
         }
-
+        /// <summary>
+        /// Evaluates FilterBy expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitFilterBy(MethodCallExpression m)
         {
             var filter = SPARQL.Filter((string)((ConstantExpression)m.Arguments[1]).Value);
             return filter;
         }
-
+        /// <summary>
+        /// Evaluates Either expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitEither(MethodCallExpression m)
         {
             var union = new Union(
@@ -239,7 +284,12 @@ namespace LINQtoSPARQLSpace
             
             return union;
         }
-
+        /// <summary>
+        /// Evaluates OR expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <param name="list"></param>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitOR(MethodCallExpression m, IList<IWhereItem> list)
         {
             var orGroup =new Group(
@@ -250,7 +300,11 @@ namespace LINQtoSPARQLSpace
             return orGroup;
         }
 
-
+        /// <summary>
+        /// Evaluates Group expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitGroup(MethodCallExpression m)
         {
             var group = new Group(
@@ -260,7 +314,11 @@ namespace LINQtoSPARQLSpace
 
             return group;
         }
-
+        /// <summary>
+        /// Evaluates Select expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>projection</returns>
         private string VisitSelect(MethodCallExpression m)
         {
             var arg = ((ConstantExpression)m.Arguments[1]).Value;
@@ -279,7 +337,11 @@ namespace LINQtoSPARQLSpace
 
             return GetSelectByTypeArgument(arg as Type);
         }
-
+        /// <summary>
+        /// Translate properties of type to delimited string 
+        /// </summary>
+        /// <param name="type">Type</param>
+        /// <returns>properties delimited string</returns>
         private string GetSelectByTypeArgument(Type type)
         {
             if (type == null)
@@ -287,15 +349,34 @@ namespace LINQtoSPARQLSpace
 
             return type.GetProperties().Select(prop => "?" + prop.Name.ToLower()).Join2String(" ");
         }
-
+        /// <summary>
+        /// Evaluates OrderBy expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>orderBy</returns>
         private string VisitOrderBy(MethodCallExpression m)
         {
             return (string)((ConstantExpression)m.Arguments[1]).Value;
         }
-
+        /// <summary>
+        /// Evaluates Limit expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>limit number</returns>
         private int VisitLimit(MethodCallExpression m)
         {
             return (int)((ConstantExpression)m.Arguments[1]).Value;
+        }
+        /// <summary>
+        /// Evaluates Prefix expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        private void VisitPrefix(MethodCallExpression m)
+        {
+            string prefix = (string)((ConstantExpression)m.Arguments[1]).Value;
+            string iri = (string)((ConstantExpression)m.Arguments[2]).Value;
+
+            Prefixes.Add(new Prefix() { PREFIX = prefix, IRI = iri });
         }
 
 
