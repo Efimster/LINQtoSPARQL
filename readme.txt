@@ -1,4 +1,4 @@
-﻿LINQtoSPARQL is specific LINQ to SPARQ for RDF sources quering
+LINQtoSPARQL is specific LINQ to SPARQ for RDF sources quering
 
 
 General usage:
