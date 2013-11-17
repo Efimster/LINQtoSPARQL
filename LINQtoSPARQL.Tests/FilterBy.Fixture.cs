@@ -38,7 +38,7 @@ namespace LINQtoSPARQLSpace.Tests
         public void TestFilter1(string data)
         {
             var query = GetQuerable<dynamic>(data, autoquotation: false);
-            var list = query.Match(S: "?x", P: "dc:title", O: "?title").FilterBy("regex(?title, \"^SPARQL\")")
+            var list = query.Match(s: "?x", p: "dc:title", o: "?title").FilterBy("regex(?title, \"^SPARQL\")")
                 .Select("?title")
                 .Prefix("dc:", "http://purl.org/dc/elements/1.1/")
                 .AsEnumerable()
@@ -48,7 +48,7 @@ namespace LINQtoSPARQLSpace.Tests
             list.Any(x => x.title == "SPARQL Tutorial").Should().Be.True();
 
             query = GetQuerable<dynamic>(data, autoquotation: true);
-            list = query.Match(S: "?x", P: "dc:title", O: "?title").FilterBy("regex(?title, web, i )")
+            list = query.Match(s: "?x", p: "dc:title", o: "?title").FilterBy("regex(?title, web, i )")
                 .Select("?title")
                 .Prefix("dc:", "http://purl.org/dc/elements/1.1/")
                 .AsEnumerable()

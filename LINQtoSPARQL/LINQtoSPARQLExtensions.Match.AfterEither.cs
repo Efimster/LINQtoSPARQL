@@ -16,115 +16,115 @@ namespace LINQtoSPARQLSpace
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
         {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Match<T>(S, P, O);
+            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Match<T>(s, p, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, string P, string O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, string p, string o)
         {
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
-            return source.Match(sName, P, O);
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
+            return source.Match(sName, p, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string S, Expression<Func<T, dynamic>> P, string O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, Expression<Func<T, dynamic>> p, string o)
         {
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            return source.Match<T>(S, pName, O);
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            return source.Match<T>(s, pName, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string S, string P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, string p, Expression<Func<T, dynamic>> o)
         {
-            string name = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            return source.Match<T>(S, P, name);
+            string name = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            return source.Match<T>(s, p, name);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, Expression<Func<T, dynamic>> P, string O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, string o)
         {
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
-            return source.Match<T>(sName, pName, O);
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
+            return source.Match<T>(sName, pName, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, string P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, string p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
-            return source.Match<T>(sName, P, oName);
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
+            return source.Match<T>(sName, p, oName);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string S, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            return source.Match<T>(S, pName, oName);
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            return source.Match<T>(s, pName, oName);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
             return Match<T>(source, sName, pName, oName);
         }
 
@@ -138,7 +138,7 @@ namespace LINQtoSPARQLSpace
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string triple)
         {
             var nodes = triple.SplitExt(" ").ToArray();
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Match(S: nodes[0], P: nodes[1], O: nodes[2]);
+            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Match(s: nodes[0], p: nodes[1], o: nodes[2]);
         }
 
 

@@ -9,76 +9,174 @@ namespace LINQtoSPARQLSpace
 {
     public static partial class LINQtoSPARQLExtensions
     {
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string S, string P, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
 
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string P, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string p, string o)
         {
-            return (ISPARQLUnionQueryable<T>)source.And_2<T>(P, O);
+            return (ISPARQLUnionQueryable<T>)source.And_2<T>(p, o);
         }
 
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string o)
         {
-            return (ISPARQLUnionQueryable<T>)source.And_1<T>(O);
+            return (ISPARQLUnionQueryable<T>)source.And_1<T>(o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, string P, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, string p, string o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string S, Expression<Func<T, dynamic>> P, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string s, Expression<Func<T, dynamic>> p, string o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string S, string P, Expression<Func<T, dynamic>> O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string s, string p, Expression<Func<T, dynamic>> o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, Expression<Func<T, dynamic>> P, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, string o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, string P, Expression<Func<T, dynamic>> O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, string p, Expression<Func<T, dynamic>> o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string S, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> S, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            return source.Match<T>(S, P, O);
+            return source.Match<T>(s, p, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> P, string O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="P">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> P, string o)
         {
             string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            return (ISPARQLUnionQueryable<T>)source.And_2<T>(pName, O);
+            return (ISPARQLUnionQueryable<T>)source.And_2<T>(pName, o);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
             return (ISPARQLUnionQueryable<T>)source.And_2<T>(pName, oName);
         }
-
-        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string P, Expression<Func<T, dynamic>> O)
+        /// <summary>
+        /// Match expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLUnionQueryable<T> And<T>(this ISPARQLUnionQueryable<T> source, string p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            return (ISPARQLUnionQueryable<T>)source.And_2<T>(P, oName);
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            return (ISPARQLUnionQueryable<T>)source.And_2<T>(p, oName);
         }
 
     }

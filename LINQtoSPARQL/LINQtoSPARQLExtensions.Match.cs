@@ -16,11 +16,11 @@ namespace LINQtoSPARQLSpace
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string S, string P, string O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string s, string p, string o)
         {
             if (source == null)
             {
@@ -28,109 +28,109 @@ namespace LINQtoSPARQLSpace
             }
 
             return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
-                new Expression[] { source.Expression, Expression.Constant(S, typeof(string)), Expression.Constant(P), Expression.Constant(O) }));
+                new Expression[] { source.Expression, Expression.Constant(s, typeof(string)), Expression.Constant(p), Expression.Constant(o) }));
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> S, string P, string O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, string p, string o)
         {
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
-            return source.Match(sName, P, O);
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
+            return source.Match(sName, p, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string S, Expression<Func<T, dynamic>> P, string O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string s, Expression<Func<T, dynamic>> p, string o)
         {
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            return source.Match<T>(S, pName, O);
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            return source.Match<T>(s, pName, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string S, string P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string s, string p, Expression<Func<T, dynamic>> o)
         {
-            string name = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            return source.Match<T>(S, P, name);
+            string name = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            return source.Match<T>(s, p, name);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> S, Expression<Func<T, dynamic>> P, string O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, string o)
         {
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
-            return source.Match<T>(sName, pName, O);
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
+            return source.Match<T>(sName, pName, o);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S"></param>
-        /// <param name="P"></param>
-        /// <param name="O"></param>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <param name="o"></param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> S, string P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, string p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
-            return source.Match<T>(sName, P, oName);
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
+            return source.Match<T>(sName, p, oName);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string S, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            return source.Match<T>(S, pName, oName);
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            return source.Match<T>(s, pName, oName);
         }
         /// <summary>
         /// Match expression
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="S">subject</param>
-        /// <param name="P">predicate</param>
-        /// <param name="O">object</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> S, Expression<Func<T, dynamic>> P, Expression<Func<T, dynamic>> O)
+        public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)O.Body).Member.Name.ToLower();
-            string pName = "?" + ((MemberExpression)P.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)S.Body).Member.Name.ToLower();
+            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
+            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
+            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
             return source.Match<T>(sName, pName, oName);
         }
         /// <summary>
@@ -143,7 +143,7 @@ namespace LINQtoSPARQLSpace
         public static ISPARQLMatchedQueryable<T> Match<T>(this ISPARQLQueryable<T> source, string triple)
         {
             var nodes = triple.SplitExt(" ").ToArray();
-            return source.Match(S: nodes[0], P: nodes[1], O: nodes[2]);
+            return source.Match(s: nodes[0], p: nodes[1], o: nodes[2]);
         }
 
 
