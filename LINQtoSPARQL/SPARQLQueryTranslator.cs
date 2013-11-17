@@ -181,9 +181,23 @@ namespace LINQtoSPARQLSpace
                 OrderByClause = VisitOrderBy(m);
             }
 
+            else if (name == "GroupBy")
+            {
+                GroupByClause = VisitOrderBy(m);
+            }
+
+            else if (name == "Having")
+            {
+                HavingClause = VisitOrderBy(m);
+            }
+
             else if (name == "Limit")
             {
                 LimitClause = VisitLimit(m);
+            }
+            else if (name == "Offset")
+            {
+                OffsetClause = VisitLimit(m);
             }
 
             else if (name == "Prefix")
@@ -359,11 +373,38 @@ namespace LINQtoSPARQLSpace
             return (string)((ConstantExpression)m.Arguments[1]).Value;
         }
         /// <summary>
+        /// Evaluates GroupBy expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>groupBy</returns>
+        private string VisitGroupBy(MethodCallExpression m)
+        {
+            return (string)((ConstantExpression)m.Arguments[1]).Value;
+        }
+        /// <summary>
+        /// Evaluates Having expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>Having</returns>
+        private string VisitHaving(MethodCallExpression m)
+        {
+            return (string)((ConstantExpression)m.Arguments[1]).Value;
+        }
+        /// <summary>
         /// Evaluates Limit expression
         /// </summary>
         /// <param name="m">method call expression</param>
         /// <returns>limit number</returns>
         private int VisitLimit(MethodCallExpression m)
+        {
+            return (int)((ConstantExpression)m.Arguments[1]).Value;
+        }
+        /// <summary>
+        /// Evaluates Offset expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>offset number</returns>
+        private int VisitOffset(MethodCallExpression m)
         {
             return (int)((ConstantExpression)m.Arguments[1]).Value;
         }

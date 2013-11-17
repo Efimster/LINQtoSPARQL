@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DynamicSPARQLSpace;
+using Should.Fluent;
 using VDS.RDF;
 using VDS.RDF.Query;
 using Xunit.Extensions;
-using Should.Fluent;
 
 
 namespace LINQtoSPARQLSpace.Tests

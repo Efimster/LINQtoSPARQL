@@ -7,7 +7,7 @@
     <ProjectGuid>{9374DFA3-91AF-42B1-A4D6-1A83F11097DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LINQtoSPARQL.Tests</RootNamespace>
+    <RootNamespace>LINQtoSPARQLSpace.Tests</RootNamespace>
     <AssemblyName>LINQtoSPARQL.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -75,7 +75,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bind.Fixture.cs" />
+    <Compile Include="Either.Fixture.cs" />
     <Compile Include="FilterBy.Fixture.cs" />
+    <Compile Include="GroupBy.Fixture.cs" />
+    <Compile Include="Limit.Fixture.cs" />
+    <Compile Include="Negation.Fixture.cs" />
+    <Compile Include="Optional.Fixture.cs" />
+    <Compile Include="OrderBy.Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
