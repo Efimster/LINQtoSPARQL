@@ -13,7 +13,7 @@ namespace LINQtoSPARQLSpace
     internal class SPARQLQueryTranslator : ExpressionVisitor
     {
         private LinkedList<IList<IWhereItem>> Groups {get; set;}
-        private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or"};
+        private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or", "Minus", "Exists", "NotExists"};
         /// <summary>
         /// Where clause
         /// </summary>
@@ -125,6 +125,9 @@ namespace LINQtoSPARQLSpace
                 case "Optional":    ret = VisitOptional(m); break;
                 case "FilterBy":    ret = VisitFilterBy(m);break;
                 case "Either":      ret = VisitEither(m);break;
+                case "Minus":       ret = VisitMinus(m); break;
+                case "Exists":      ret = VisitExists(m); break;
+                case "NotExists":   ret = VisitNotExists(m); break;
                 case "Or":          
                                     if (prevMethod.Method.Name != "End")
                                         Groups.RemoveLast();
@@ -164,9 +167,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitMatch(MethodCallExpression m)
         {
-            var tripple = SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
-                new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value," ", (string)((ConstantExpression)m.Arguments[3]).Value) });
-            return tripple;
+            return MakeTripleFromArguments(m);
         }
         /// <summary>
         /// Evaluates And expression with one parameter
@@ -201,10 +202,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>SPARQL Where clause item</returns>
         private IWhereItem VisitOptional(MethodCallExpression m)
         {
-            var tripple = SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
-                new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value," ", (string)((ConstantExpression)m.Arguments[3]).Value) });
-                         
-            return new Optional(tripple);
+            return new Optional(MakeTripleFromArguments(m));
         }
         /// <summary>
         /// Evaluates FilterBy expression
@@ -353,6 +351,39 @@ namespace LINQtoSPARQLSpace
             string iri = (string)((ConstantExpression)m.Arguments[2]).Value;
 
             Prefixes.Add(new Prefix() { PREFIX = prefix, IRI = iri });
+        }
+        /// <summary>
+        /// Evaluates Minus expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
+        private IWhereItem VisitMinus(MethodCallExpression m)
+        {
+            return new Minus(MakeTripleFromArguments(m));
+        }
+        /// <summary>
+        /// Evaluates Exists expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
+        private IWhereItem VisitExists(MethodCallExpression m)
+        {
+            return new Exists(MakeTripleFromArguments(m));
+        }
+        /// <summary>
+        /// Evaluates NotExists expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
+        private IWhereItem VisitNotExists(MethodCallExpression m)
+        {
+            return new NotExists(MakeTripleFromArguments(m));
+        }
+
+        private Triple MakeTripleFromArguments(MethodCallExpression m)
+        {
+            return SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
+               new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", (string)((ConstantExpression)m.Arguments[3]).Value) });
         }
 
 

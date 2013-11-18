@@ -69,9 +69,13 @@
     <Compile Include="LINQtoSPARQLExtensions.cs" />
     <Compile Include="LINQtoSPARQLExtensions.Either.cs" />
     <Compile Include="LINQtoSPARQLExtensions.FilterBy.cs" />
+    <Compile Include="LINQtoSPARQLExtensions.GroupBy.cs" />
+    <Compile Include="LINQtoSPARQLExtensions.Limit.cs" />
     <Compile Include="LINQtoSPARQLExtensions.Match.AfterEither.cs" />
     <Compile Include="LINQtoSPARQLExtensions.Match.cs" />
+    <Compile Include="LINQtoSPARQLExtensions.Negation.cs" />
     <Compile Include="LINQtoSPARQLExtensions.Optional.cs" />
+    <Compile Include="LINQtoSPARQLExtensions.Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SPARQLQuery.cs" />
     <Compile Include="SPARQLQueryProvider.cs" />
