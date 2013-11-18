@@ -84,6 +84,7 @@
     <Compile Include="Optional.Fixture.cs" />
     <Compile Include="OrderBy.Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

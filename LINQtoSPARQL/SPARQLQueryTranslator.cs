@@ -114,97 +114,32 @@ namespace LINQtoSPARQLSpace
             }
 
             var list = Groups.Last.Value;
-            
-            if (name == "End")
-            {
-                Groups.RemoveLast();
-                ret = null;
-            }
-            
-            else if (name == "Group")
-            {
-                ret = VisitGroup(m);
-            }
-                       
-            //"Match" or "And" with three parameters
-            else if (name == "Match")
-            {
-                ret = VisitMatch(m);
-            }
 
-
-            //"And" with one parameter 
-            else if (name == "And_1")
+            switch(name)
             {
-                ret = VisitAnd1(m, list);
+                case "End":         Groups.RemoveLast();break;
+                case "Group":       ret = VisitGroup(m);break;
+                case "Match":       ret = VisitMatch(m);break;
+                case "And_1":       ret = VisitAnd1(m, list);break;
+                case "And_2":       ret = VisitAnd2(m, list);break;
+                case "Optional":    ret = VisitOptional(m); break;
+                case "FilterBy":    ret = VisitFilterBy(m);break;
+                case "Either":      ret = VisitEither(m);break;
+                case "OR":          
+                                    if (prevMethod.Method.Name != "End")
+                                        Groups.RemoveLast();
+                                    list = Groups.Last.Value;
+                                    Groups.RemoveLast();
+                                    ret = VisitOR(m, list);
+                                    break;
+                case "Select":      SelectClause = VisitSelect(m);break;
+                case "OrderBy":     OrderByClause = VisitOrderBy(m);break;
+                case "GroupBy":     GroupByClause = VisitOrderBy(m);break;
+                case "Having":      HavingClause = VisitOrderBy(m);break;
+                case "Limit":       LimitClause = VisitLimit(m);break;
+                case "Offset":      OffsetClause = VisitLimit(m);break;
+                case "Prefix":      VisitPrefix(m); break;
             }
-            //"And" with two parameters
-            else if (name == "And_2")
-            {
-                ret = VisitAnd2(m, list);
-            }
-
-            else if (name == "Optional")
-            {
-                ret = VisitOptional(m); 
-                
-            }
-
-            else if (name == "FilterBy")
-            {
-                 ret = VisitFilterBy(m);
-            }
-
-            else if (name == "Either")
-            {
-                ret = VisitEither(m);
-            }
-            
-            else if (name == "OR")
-            {
-                if (prevMethod.Method.Name != "End")
-                    Groups.RemoveLast();
-           
-                list = Groups.Last.Value;
-                Groups.RemoveLast();
-               
-                ret = VisitOR(m, list);
-            }
-
-            else if (name == "Select")
-            {
-                SelectClause = VisitSelect(m);
-            }
-
-            else if (name == "OrderBy")
-            {
-                OrderByClause = VisitOrderBy(m);
-            }
-
-            else if (name == "GroupBy")
-            {
-                GroupByClause = VisitOrderBy(m);
-            }
-
-            else if (name == "Having")
-            {
-                HavingClause = VisitOrderBy(m);
-            }
-
-            else if (name == "Limit")
-            {
-                LimitClause = VisitLimit(m);
-            }
-            else if (name == "Offset")
-            {
-                OffsetClause = VisitLimit(m);
-            }
-
-            else if (name == "Prefix")
-            {
-                VisitPrefix(m);
-            }
-
 
             if (ret == null)
                 return;
