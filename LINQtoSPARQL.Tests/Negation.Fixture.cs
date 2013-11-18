@@ -26,7 +26,8 @@ namespace LINQtoSPARQLSpace.Tests
         {
             var query = TestDataProvider.GetQuerable<dynamic>(data, treatUri: true);
             var list = query.Prefix("foaf:", "http://xmlns.com/foaf/0.1/")
-                .Select("DISTINCT ?s")
+                .Select("?s")
+                .Distinct()
                 .Match("?s ?p ?o")
                 .Minus("?s foaf:givenName Bob")
                 .AsEnumerable()

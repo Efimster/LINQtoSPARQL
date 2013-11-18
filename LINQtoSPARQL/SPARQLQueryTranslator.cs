@@ -46,6 +46,10 @@ namespace LINQtoSPARQLSpace
         /// Offset clause
         /// </summary>
         public int? OffsetClause { get; private set; }
+        /// <summary>
+        /// Distinct projection
+        /// </summary>
+        public bool Distinct { get; private set; }
 
 
         internal void Translate(Expression expression)
@@ -55,12 +59,14 @@ namespace LINQtoSPARQLSpace
             WhereClause = null;
             SelectClause = null;
             Prefixes = new List<Prefix>(5);
+            Distinct = false;
             this.Visit(expression);
             WhereClause = (Group)Groups.Last.Value;
-            if (SelectClause != null)
-                return;
+            if (SelectClause == null)
+                SelectClause = GetSelectByTypeArgument(((MethodCallExpression)expression).Method.GetGenericArguments()[0]);
 
-            SelectClause = GetSelectByTypeArgument(((MethodCallExpression)expression).Method.GetGenericArguments()[0]);
+            if (Distinct)
+                SelectClause = "DISTINCT "+SelectClause;
 
         }
         /// <summary>
@@ -142,6 +148,9 @@ namespace LINQtoSPARQLSpace
                 case "Limit":       LimitClause = VisitLimit(m);break;
                 case "Offset":      OffsetClause = VisitLimit(m);break;
                 case "Prefix":      VisitPrefix(m); break;
+                //case "Bind":
+                case "As":          ret = VisitBindAs(prevMethod,m); break;
+                case "Distinct":    VisitDistinct(m); break;
             }
 
             if (ret == null)
@@ -379,11 +388,27 @@ namespace LINQtoSPARQLSpace
         {
             return new NotExists(MakeTripleFromArguments(m));
         }
-
+        /// <summary>
+        /// Makes triple from expression arguments
+        /// </summary>
+        /// <param name="m">method call arguments</param>
+        /// <returns></returns>
         private Triple MakeTripleFromArguments(MethodCallExpression m)
         {
             return SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
                new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", (string)((ConstantExpression)m.Arguments[3]).Value) });
+        }
+
+        private IWhereItem VisitBindAs(MethodCallExpression bind, MethodCallExpression asValue)
+        {
+            return SPARQL.Bind(string.Concat((string)((ConstantExpression)bind.Arguments[1]).Value,
+                " AS ",
+                (string)((ConstantExpression)asValue.Arguments[1]).Value));
+        }
+
+        private void VisitDistinct(MethodCallExpression m)
+        {
+            Distinct = true;
         }
 
 

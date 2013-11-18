@@ -27,20 +27,22 @@ namespace LINQtoSPARQLSpace
     /// Match query expression interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISPARQLMatchedQueryable<T> : ISPARQLQueryable<T>
-    {}
-
+    public interface ISPARQLMatchedQueryable<T> : ISPARQLQueryable<T>{}
     /// <summary>
     /// Union/Either query expression interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISPARQLUnionQueryable<T> : ISPARQLMatchedQueryable<T>
-    {}
+    public interface ISPARQLUnionQueryable<T> : ISPARQLQueryable {}
     /// <summary>
     /// Typed interface of SPARQL LINQ query
     /// </summary>
     /// <typeparam name="T">element type</typeparam>
     public interface ISPARQLQueryable<T> : ISPARQLQueryable { }
+    /// <summary>
+    /// Bind query expression interface
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface ISPARQLBindingQueryable<T> : ISPARQLQueryable { }
 
 
 }
