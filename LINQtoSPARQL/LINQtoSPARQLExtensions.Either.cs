@@ -20,7 +20,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Either<T>(this ISPARQLQueryable<T> source, string s, string p, string o)
+        public static ISPARQLUnionQueryable<T> Either<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
@@ -53,7 +53,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Or<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
+        public static ISPARQLMatchedQueryable<T> Or<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
         {
             return (ISPARQLMatchedQueryable<T>)Or<T>((ISPARQLQueryable)source, s, p, o);
         }
@@ -66,7 +66,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        private static ISPARQLQueryable<T> Or<T>(this ISPARQLQueryable source, string s, string p, string o)
+        private static ISPARQLQueryable<T> Or<T>(this ISPARQLQueryable source, string s, string p, dynamic o)
         {
             if (source == null)
             {

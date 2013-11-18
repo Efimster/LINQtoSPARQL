@@ -20,7 +20,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, string s, string p, string o)
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
@@ -33,15 +33,107 @@ namespace LINQtoSPARQLSpace
         /// <summary>
         /// Optional expression
         /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, string p, dynamic o)
+        {
+            return Optional(source, s.GetMemberAccessName(), p, o);
+        }
+        /// <summary>
+        /// Optional expression
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, string s, Expression<Func<T, dynamic>> p, dynamic o)
+        {
+            return Optional<T>(source, s, p.GetMemberAccessName(), o);
+        }
+        /// <summary>
+        /// Optional expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, string s, string p, Expression<Func<T, dynamic>> o)
+        {
+            return source.Optional<T>(s, p, o.GetMemberAccessName());
+        }
+        /// <summary>
+        /// Optional expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, dynamic o)
+        {
+            return Optional<T>(source, s.GetMemberAccessName(), p.GetMemberAccessName(), o);
+        }
+        /// <summary>
+        /// Optional expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <param name="o"></param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, string p, Expression<Func<T, dynamic>> o)
+        {
+            return source.Optional<T>(s.GetMemberAccessName(), p, o.GetMemberAccessName());
+        }
+        /// <summary>
+        /// Optional expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, string s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
+        {
+            return source.Optional<T>(s, p.GetMemberAccessName(), o.GetMemberAccessName());
+        }
+        /// <summary>
+        /// Optional expression
+        /// </summary>
+        /// <typeparam name="T">element type</typeparam>
+        /// <param name="source">query</param>
+        /// <param name="s">subject</param>
+        /// <param name="p">predicate</param>
+        /// <param name="o">object</param>
+        /// <returns>query</returns>
+        public static ISPARQLMatchedQueryable<T> Optional<T>(this ISPARQLQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
+        {
+            return source.Optional<T>(s.GetMemberAccessName(), p.GetMemberAccessName(), o.GetMemberAccessName());
+        }
+
+        /// <summary>
+        /// Optional expression
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="s">subject</param>
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Optional<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
+        public static ISPARQLUnionQueryable<T> Optional<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Optional<T>(s, p, o);
+            return (ISPARQLUnionQueryable<T>)Optional<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>
@@ -55,6 +147,14 @@ namespace LINQtoSPARQLSpace
         {
             var nodes = triple.SplitExt(" ").ToArray();
             return source.Optional(s: nodes[0], p: nodes[1], o: nodes[2]);
+        }
+
+        private static string GetMemberAccessName<T>(this Expression<Func<T, dynamic>> expression)
+        {
+            MemberExpression member = (MemberExpression)(expression.Body as UnaryExpression != null ? 
+                ((UnaryExpression)expression.Body).Operand 
+                : expression.Body);
+            return "?" + member.Member.Name.ToLower();
         }
     }
 }

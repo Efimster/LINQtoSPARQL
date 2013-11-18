@@ -20,7 +20,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Minus<T>(this ISPARQLQueryable<T> source, string s, string p, string o)
+        public static ISPARQLMatchedQueryable<T> Minus<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
@@ -39,9 +39,9 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Minus<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
+        public static ISPARQLUnionQueryable<T> Minus<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Minus<T>(s, p, o);
+            return (ISPARQLUnionQueryable<T>)Minus<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Exists<T>(this ISPARQLQueryable<T> source, string s, string p, string o)
+        public static ISPARQLMatchedQueryable<T> Exists<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
@@ -84,9 +84,9 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Exists<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
+        public static ISPARQLUnionQueryable<T> Exists<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).Exists<T>(s, p, o);
+            return (ISPARQLUnionQueryable<T>)Exists<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> NotExists<T>(this ISPARQLQueryable<T> source, string s, string p, string o)
+        public static ISPARQLMatchedQueryable<T> NotExists<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
@@ -129,9 +129,9 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> NotExists<T>(this ISPARQLUnionQueryable<T> source, string s, string p, string o)
+        public static ISPARQLUnionQueryable<T> NotExists<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)((ISPARQLQueryable<T>)source).NotExists<T>(s, p, o);
+            return (ISPARQLUnionQueryable<T>)NotExists<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>

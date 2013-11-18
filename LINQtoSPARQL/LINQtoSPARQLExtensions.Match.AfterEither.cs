@@ -35,8 +35,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, string p, string o)
         {
-            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
-            return source.Match(sName, p, o);
+            return source.Match(s.GetMemberAccessName(), p, o);
         }
         /// <summary>
         /// Match expression
@@ -49,8 +48,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, Expression<Func<T, dynamic>> p, string o)
         {
-            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
-            return source.Match<T>(s, pName, o);
+            return source.Match<T>(s, p.GetMemberAccessName(), o);
         }
         /// <summary>
         /// Match expression
@@ -63,8 +61,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, string p, Expression<Func<T, dynamic>> o)
         {
-            string name = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
-            return source.Match<T>(s, p, name);
+            return source.Match<T>(s, p, o.GetMemberAccessName());
         }
         /// <summary>
         /// Match expression
@@ -77,9 +74,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, string o)
         {
-            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
-            return source.Match<T>(sName, pName, o);
+            return source.Match<T>(s.GetMemberAccessName(), p.GetMemberAccessName(), o);
         }
         /// <summary>
         /// Match expression
@@ -92,9 +87,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, string p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
-            return source.Match<T>(sName, p, oName);
+            return source.Match<T>(s.GetMemberAccessName(), p, o.GetMemberAccessName());
         }
         /// <summary>
         /// Match expression
@@ -107,9 +100,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, string s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
-            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
-            return source.Match<T>(s, pName, oName);
+            return source.Match<T>(s, p.GetMemberAccessName(), o.GetMemberAccessName());
         }
         /// <summary>
         /// Match expression
@@ -122,10 +113,7 @@ namespace LINQtoSPARQLSpace
         /// <returns>query</returns>
         public static ISPARQLUnionQueryable<T> Match<T>(this ISPARQLUnionQueryable<T> source, Expression<Func<T, dynamic>> s, Expression<Func<T, dynamic>> p, Expression<Func<T, dynamic>> o)
         {
-            string oName = "?" + ((MemberExpression)o.Body).Member.Name.ToLower();
-            string pName = "?" + ((MemberExpression)p.Body).Member.Name.ToLower();
-            string sName = "?" + ((MemberExpression)s.Body).Member.Name.ToLower();
-            return Match<T>(source, sName, pName, oName);
+            return Match<T>(source, s.GetMemberAccessName(), p.GetMemberAccessName(), o.GetMemberAccessName());
         }
 
         /// <summary>

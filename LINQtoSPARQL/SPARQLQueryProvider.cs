@@ -38,7 +38,6 @@ namespace LINQtoSPARQLSpace
         public IEnumerable<T> ExecuteEnumerable<T>(Expression expression)
         {
             var translator = this.Translate(expression);
-            dynamic dyno = Dyno;
 
             foreach(var res in Dyno.Select<T>(
                    prefixes: translator.Prefixes,

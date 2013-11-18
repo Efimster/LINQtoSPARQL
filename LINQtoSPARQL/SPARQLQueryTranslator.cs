@@ -188,7 +188,7 @@ namespace LINQtoSPARQLSpace
             var prev = (Triple)list[list.Count - 1];
 
             int lastPropIdx = prev.Property.Count - 1;
-            prev.Property[lastPropIdx] = string.Concat(prev.Property[lastPropIdx], ", ", (string)((ConstantExpression)m.Arguments[1]).Value);
+            prev.Property[lastPropIdx] = string.Concat(prev.Property[lastPropIdx], ", ", ((ConstantExpression)m.Arguments[1]).Value.ToString());
 
             return null;
         }
@@ -200,7 +200,7 @@ namespace LINQtoSPARQLSpace
         private IWhereItem VisitAnd2(MethodCallExpression m, IList<IWhereItem> list)
         {
             var prev = (Triple)list[list.Count - 1];
-            prev.Property.Add(string.Concat((string)((ConstantExpression)m.Arguments[1]).Value, " ", (string)((ConstantExpression)m.Arguments[2]).Value));
+            prev.Property.Add(string.Concat((string)((ConstantExpression)m.Arguments[1]).Value, " ", ((ConstantExpression)m.Arguments[2]).Value.ToString()));
 
             return null;
         }
@@ -396,7 +396,7 @@ namespace LINQtoSPARQLSpace
         private Triple MakeTripleFromArguments(MethodCallExpression m)
         {
             return SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
-               new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", (string)((ConstantExpression)m.Arguments[3]).Value) });
+               new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", ((ConstantExpression)m.Arguments[3]).Value.ToString()) });
         }
 
         private IWhereItem VisitBindAs(MethodCallExpression bind, MethodCallExpression asValue)
