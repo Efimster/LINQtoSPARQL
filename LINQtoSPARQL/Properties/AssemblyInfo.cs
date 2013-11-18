@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LINQtoSPARQL")]
 [assembly: AssemblyDescription("Specific LINQ to SPARQ for RDF sources quering")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Efim Goncharuk")]
+[assembly: AssemblyCompany("Efimster")]
 [assembly: AssemblyProduct("LINQtoSPARQL")]
-[assembly: AssemblyCopyright("Efimster")]
+[assembly: AssemblyCopyright("Efimster@gmail.com")]
 [assembly: AssemblyTrademark("Copyright 2013 (c) Efimster")]
 [assembly: AssemblyCulture("")]
 

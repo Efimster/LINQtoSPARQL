@@ -8,7 +8,7 @@ using Xunit.Extensions;
 
 namespace LINQtoSPARQLSpace.Tests
 {
-    class BindFixture
+    public class BindFixture
     {
     }
 }

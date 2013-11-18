@@ -13,7 +13,7 @@ namespace LINQtoSPARQLSpace
     internal class SPARQLQueryTranslator : ExpressionVisitor
     {
         private LinkedList<IList<IWhereItem>> Groups {get; set;}
-        private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "OR"};
+        private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or"};
         /// <summary>
         /// Where clause
         /// </summary>
@@ -109,7 +109,7 @@ namespace LINQtoSPARQLSpace
             if (prevMethod != null)
             {
                 VisitSPARQL(prevMethod,  
-                    (name == "OR" && prevMethod.Method.Name != "End") 
+                    (name == "Or" && prevMethod.Method.Name != "End") 
                      ? prevItemLevel+1 : prevItemLevel);
             }
 
@@ -125,12 +125,12 @@ namespace LINQtoSPARQLSpace
                 case "Optional":    ret = VisitOptional(m); break;
                 case "FilterBy":    ret = VisitFilterBy(m);break;
                 case "Either":      ret = VisitEither(m);break;
-                case "OR":          
+                case "Or":          
                                     if (prevMethod.Method.Name != "End")
                                         Groups.RemoveLast();
                                     list = Groups.Last.Value;
                                     Groups.RemoveLast();
-                                    ret = VisitOR(m, list);
+                                    ret = VisitOr(m, list);
                                     break;
                 case "Select":      SelectClause = VisitSelect(m);break;
                 case "OrderBy":     OrderByClause = VisitOrderBy(m);break;
@@ -234,12 +234,12 @@ namespace LINQtoSPARQLSpace
             return union;
         }
         /// <summary>
-        /// Evaluates OR expression
+        /// Evaluates Or expression
         /// </summary>
         /// <param name="m">method call expression</param>
         /// <param name="list"></param>
         /// <returns>SPARQL Where clause item</returns>
-        private IWhereItem VisitOR(MethodCallExpression m, IList<IWhereItem> list)
+        private IWhereItem VisitOr(MethodCallExpression m, IList<IWhereItem> list)
         {
             var orGroup =new Group(
                     SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
