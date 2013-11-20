@@ -29,7 +29,7 @@ General usage:
 
 1)Create query
 	dynamic dyno = DynamicSPARQL.CreateDyno(...); //(see DynamicSPARQL project https://github.com/Efimster/DynamicSPARQL)
-	ISPARQLQueryable  query = new SPARQLQuery<T>(dyno);
+	ISPARQLQueryable<T>  query = new SPARQLQuery<T>(dyno);// T - could be dynamic
 
 3) Make a query
             var list = query.Match("?org :affiliates ?auth")
