@@ -50,7 +50,7 @@ Examples:
 
 	    query.Prefix("dc:", "http://purl.org/dc/elements/1.1/")
                 .Prefix("ns:", "http://example.org/ns#")
-                .Match("?x ns:price ?price").Match("?x dc:title ?title")
+                .Match("?x ns:price ?price").And("dc:title ?title")
                 .Select("?title ?price")
                 .OrderBy("desc(?price)")
                 .AsEnumerable()
