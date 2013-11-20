@@ -60,10 +60,22 @@ namespace LINQtoSPARQLSpace
         /// </summary>
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
-        /// <param name="o">object</param>
+        /// <param name="o">object or triple or partional triple</param>
         /// <returns>query</returns>
         public static ISPARQLMatchedQueryable<T> And<T>(this ISPARQLMatchedQueryable<T> source, dynamic o)
         {
+            if (o as string != null)
+            {
+                IList<string> obj = ((string)o).SplitExt(" ").ToArray();
+                if (obj.Count == 3)
+                    return Match(source, s: obj[0], p: obj[1], o: obj[2]);
+
+                if (obj.Count == 2)
+                    return (ISPARQLMatchedQueryable<T>)And_2<T>(source, p: obj[0], o: obj[1]);
+            }
+            
+            
+            
             return (ISPARQLMatchedQueryable<T>)And_1<T>(source, o);
         }
 

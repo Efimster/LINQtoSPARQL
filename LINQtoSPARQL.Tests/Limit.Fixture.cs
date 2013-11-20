@@ -22,7 +22,7 @@ namespace LINQtoSPARQLSpace.Tests
         public void TestLimit1(string data)
         {
             var query = TestDataProvider.GetQuerable<dynamic>(data);
-            var list = query.Match("?x ns:price ?price").And(p: "dc:title", o: "?title")
+            var list = query.Match("?x ns:price ?price").And("dc:title ?title")
                 .Select("?title ?price")
                 .OrderBy("desc(?price)")
                 .Limit(1)

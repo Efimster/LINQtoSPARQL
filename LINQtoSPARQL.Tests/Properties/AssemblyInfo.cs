@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LINQtoSPARQL.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SITRONICS TS")]
+[assembly: AssemblyCompany("Efimster")]
 [assembly: AssemblyProduct("LINQtoSPARQL.Tests")]
-[assembly: AssemblyCopyright("Copyright © SITRONICS TS 2013")]
+[assembly: AssemblyCopyright("Copyright 2013 (c) Efimster https://github.com/Efimster")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

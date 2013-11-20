@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DynamicSPARQLSpace;
 using VDS.RDF;
 using VDS.RDF.Query;
+using System.Xml;
 
 namespace LINQtoSPARQLSpace.Tests
 {
@@ -16,9 +17,11 @@ namespace LINQtoSPARQLSpace.Tests
             var graph = new Graph();
             graph.LoadFromString(data);
 
-            Func<string, SparqlResultSet> sendSPARQLQuery = xquery => graph.ExecuteQuery(xquery) as SparqlResultSet;
-            dynamic dyno = DynamicSPARQL.CreateDyno(sendSPARQLQuery, autoquotation, treatUri);
-
+            Func<string, SparqlResultSet> queringFunction = xquery => {
+                return graph.ExecuteQuery(xquery) as SparqlResultSet;
+                
+            }; 
+            dynamic dyno = DynamicSPARQL.CreateDyno(queringFunction, autoquotation, treatUri);
             return new SPARQLQuery<T>(dyno);
         }
     }

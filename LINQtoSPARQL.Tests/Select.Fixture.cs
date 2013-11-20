@@ -38,7 +38,6 @@ namespace LINQtoSPARQLSpace.Tests
             list.Where(x => x.Name == "Alice" && x.MBox == "mailto:alice@example.com").Count().Should().Equal(1);
             list.Where(x => x.Name == "Alice" && x.MBox == "mailto:alice@work.example").Count().Should().Equal(1);
             list.Where(x => x.Name == "Bob" && x.MBox == null && x.Rating == 5).Count().Should().Equal(1);
-
         }
     }
 

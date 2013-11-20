@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQtoSPARQL.Tests", "LINQt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FC92F0D5-9F4E-4502-BEB5-1FE7BB9022DD}"
 	ProjectSection(SolutionItems) = preProject
+		MIT-LICENSE.txt = MIT-LICENSE.txt
 		readme.txt = readme.txt
 	EndProjectSection
 EndProject
