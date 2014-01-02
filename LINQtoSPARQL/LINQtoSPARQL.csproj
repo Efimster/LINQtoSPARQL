@@ -34,9 +34,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\dotNetRDF.1.0.2.2880\lib\net40\dotNetRDF.dll</HintPath>
     </Reference>
-    <Reference Include="DynamicSPARQL, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DynamicSPARQL, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DynamicSPARQL.1.0.0.1\lib\net45\DynamicSPARQL.dll</HintPath>
+      <HintPath>..\packages\DynamicSPARQL.1.0.0.2\lib\net45\DynamicSPARQL.dll</HintPath>
     </Reference>
     <Reference Include="HelperExtensionsLibrary, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

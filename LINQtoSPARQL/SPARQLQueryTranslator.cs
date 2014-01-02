@@ -232,7 +232,7 @@ namespace LINQtoSPARQLSpace
         {
             var union = new Union(
                 new Group(
-                    SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
+                    SPARQL.Triple((string)((ConstantExpression)m.Arguments[1]).Value,
                         new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", (string)((ConstantExpression)m.Arguments[3]).Value) })
                 ),
                 null
@@ -249,7 +249,7 @@ namespace LINQtoSPARQLSpace
         private IWhereItem VisitOr(MethodCallExpression m, IList<IWhereItem> list)
         {
             var orGroup =new Group(
-                    SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
+                    SPARQL.Triple((string)((ConstantExpression)m.Arguments[1]).Value,
                         new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", (string)((ConstantExpression)m.Arguments[3]).Value) })
                 );
 
@@ -264,7 +264,7 @@ namespace LINQtoSPARQLSpace
         private IWhereItem VisitGroup(MethodCallExpression m)
         {
             var group = new Group(
-                    SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
+                    SPARQL.Triple((string)((ConstantExpression)m.Arguments[1]).Value,
                         new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", (string)((ConstantExpression)m.Arguments[3]).Value) })
                 );
 
@@ -395,7 +395,7 @@ namespace LINQtoSPARQLSpace
         /// <returns></returns>
         private Triple MakeTripleFromArguments(MethodCallExpression m)
         {
-            return SPARQL.Tripple((string)((ConstantExpression)m.Arguments[1]).Value,
+            return SPARQL.Triple((string)((ConstantExpression)m.Arguments[1]).Value,
                new List<string>() { string.Concat((string)((ConstantExpression)m.Arguments[2]).Value, " ", ((ConstantExpression)m.Arguments[3]).Value.ToString()) });
         }
 
