@@ -14,6 +14,7 @@ namespace LINQtoSPARQLSpace
         protected SPARQLQueryProvider provider;
         protected Expression expression;
 
+
         public SPARQLQuery(DynamicSPARQL dyno)
             : this(new SPARQLQueryProvider(dyno))
         {
@@ -47,6 +48,11 @@ namespace LINQtoSPARQLSpace
             this.expression = expression;
         }
 
+        public string LastQueryPrint
+        {
+            get { return provider.LastQueryPrint; }
+        }
+
         ISPARQLQueryProvider ISPARQLQueryable.Provider
         {
             get { return this.provider; }
@@ -57,7 +63,9 @@ namespace LINQtoSPARQLSpace
         {
             get { return this.expression; }
         }
-
+        /// <summary>
+        /// Print of last query
+        /// </summary>
         public override string ToString()
         {
             return provider.GetQueryText(expression);

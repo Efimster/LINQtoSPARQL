@@ -14,6 +14,7 @@ namespace LINQtoSPARQLSpace
     {
         private LinkedList<IList<IWhereItem>> Groups {get; set;}
         private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or", "Minus", "Exists", "NotExists"};
+        private readonly string[] ClauseMethods = { "Delete","Insert" };
         /// <summary>
         /// Where clause
         /// </summary>
@@ -50,23 +51,29 @@ namespace LINQtoSPARQLSpace
         /// Distinct projection
         /// </summary>
         public bool Distinct { get; private set; }
+        /// <summary>
+        /// Delete clause
+        /// </summary>
+        public Group DeleteClause { get; private set; }
+        /// <summary>
+        /// Insert clause
+        /// </summary>
+        public Group InsertClause { get; private set; }
+
+        private MethodCallExpression NextMethodCall { get; set; }
 
 
         internal void Translate(Expression expression)
         {
-            Groups = new LinkedList<IList<IWhereItem>>();
-            Groups.AddLast(new Group() { Items = new List<IWhereItem>() });
+            
             WhereClause = null;
             SelectClause = null;
+            DeleteClause = null;
+            InsertClause = null;
             Prefixes = new List<Prefix>(5);
             Distinct = false;
             this.Visit(expression);
-            WhereClause = (Group)Groups.Last.Value;
-            if (SelectClause == null)
-                SelectClause = GetSelectByTypeArgument(((MethodCallExpression)expression).Method.GetGenericArguments()[0]);
-
-            if (Distinct)
-                SelectClause = "DISTINCT "+SelectClause;
+          
 
         }
         /// <summary>
@@ -79,8 +86,38 @@ namespace LINQtoSPARQLSpace
             if (m.Method.DeclaringType != typeof(LINQtoSPARQLExtensions))
                 throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
 
+            NextMethodCall = m;
 
-            VisitSPARQL(m); 
+            while (NextMethodCall != null) 
+            {
+                Groups = new LinkedList<IList<IWhereItem>>();
+                Groups.AddLast(new Group() { Items = new List<IWhereItem>() });
+                VisitSPARQL(NextMethodCall);
+
+                if (NextMethodCall==null)
+                {
+                    WhereClause = Groups.Last.Value.Count>0 ? (Group)Groups.Last.Value : null;
+
+                    if (SelectClause == null)
+                        SelectClause = GetSelectByTypeArgument(((MethodCallExpression)m).Method.GetGenericArguments()[0]);
+
+                    if (Distinct)
+                        SelectClause = "DISTINCT " + SelectClause;
+
+                    continue;
+
+                }
+
+                if (NextMethodCall.Method.Name == "Delete")
+                    DeleteClause = Groups.Last.Value.Count > 0 ? (Group)Groups.Last.Value : null;
+                else if (NextMethodCall.Method.Name == "Insert")
+                    InsertClause = Groups.Last.Value.Count > 0 ? (Group)Groups.Last.Value : null;
+                
+                NextMethodCall = NextMethodCall.Arguments[0] as MethodCallExpression;
+            }
+                
+
+           
 
             return m;
 
@@ -96,28 +133,35 @@ namespace LINQtoSPARQLSpace
             if (m.Arguments == null || m.Arguments.Count == 0)
                 return;
             
-            var prevMethod = m.Arguments[0] as MethodCallExpression;
+           
 
             IWhereItem ret = null;
             string name = m.Method.Name;
 
-            int prevItemLevel = level;
+            int nextItemLevel = level;
+            var nextMethodCall = m.Arguments[0] as MethodCallExpression;
 
             if (name == "End")
             {
-                prevItemLevel++;
+                nextItemLevel++;
             }
             else if (level > 0 && GroupingMethods.Any(n=>n==name))
             {
-                prevItemLevel--;
+                nextItemLevel--;
             }
 
-            if (prevMethod != null)
+            if (!ClauseMethods.Any(n => n == name))
             {
-                VisitSPARQL(prevMethod,  
-                    (name == "Or" && prevMethod.Method.Name != "End") 
-                     ? prevItemLevel+1 : prevItemLevel);
+                NextMethodCall = nextMethodCall;
+                if (NextMethodCall != null)
+                {
+                    VisitSPARQL(NextMethodCall,
+                        (name == "Or" && nextMethodCall.Method.Name != "End")
+                         ? nextItemLevel + 1 : nextItemLevel);
+                }
             }
+
+            
 
             var list = Groups.Last.Value;
 
@@ -135,7 +179,7 @@ namespace LINQtoSPARQLSpace
                 case "Exists":      ret = VisitExists(m); break;
                 case "NotExists":   ret = VisitNotExists(m); break;
                 case "Or":          
-                                    if (prevMethod.Method.Name != "End")
+                                    if (nextMethodCall.Method.Name != "End")
                                         Groups.RemoveLast();
                                     list = Groups.Last.Value;
                                     Groups.RemoveLast();
@@ -149,7 +193,7 @@ namespace LINQtoSPARQLSpace
                 case "Offset":      OffsetClause = VisitLimit(m);break;
                 case "Prefix":      VisitPrefix(m); break;
                 //case "Bind":
-                case "As":          ret = VisitBindAs(prevMethod,m); break;
+                case "As":          ret = VisitBindAs(nextMethodCall,m); break;
                 case "Distinct":    VisitDistinct(m); break;
             }
 
@@ -158,7 +202,7 @@ namespace LINQtoSPARQLSpace
             
             list.Add(ret);
 
-            if (level <= prevItemLevel)
+            if (level <= nextItemLevel)
                 return;
 
             Group group;
@@ -166,7 +210,7 @@ namespace LINQtoSPARQLSpace
             while ((group = ret as Group)!=null)
             {
                 Groups.AddLast(group);
-                ret = group[0];
+                ret = group.Count > 0 ? group[0] : null;
             }
         }
         /// <summary>
@@ -359,7 +403,7 @@ namespace LINQtoSPARQLSpace
             string prefix = (string)((ConstantExpression)m.Arguments[1]).Value;
             string iri = (string)((ConstantExpression)m.Arguments[2]).Value;
 
-            Prefixes.Add(new Prefix() { PREFIX = prefix, IRI = iri });
+            Prefixes.Add(SPARQL.Prefix(prefix,iri));
         }
         /// <summary>
         /// Evaluates Minus expression

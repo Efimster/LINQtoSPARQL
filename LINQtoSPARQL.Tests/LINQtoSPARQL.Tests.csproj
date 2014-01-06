@@ -30,21 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BrightstarDB, Version=1.5.2.0, Culture=neutral, PublicKeyToken=e08b12254e74c9d9, processorArchitecture=MSIL">
+    <Reference Include="BrightstarDB, Version=1.5.3.0, Culture=neutral, PublicKeyToken=e08b12254e74c9d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BrightstarDB.1.5.2.0\lib\net40\BrightstarDB.dll</HintPath>
+      <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\BrightstarDB.dll</HintPath>
     </Reference>
     <Reference Include="dotNetRDF, Version=1.0.2.2880, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BrightstarDB.1.5.2.0\lib\net40\dotNetRDF.dll</HintPath>
+      <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\dotNetRDF.dll</HintPath>
     </Reference>
-    <Reference Include="DynamicSPARQL, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DynamicSPARQL, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DynamicSPARQL.1.0.0.2\lib\net45\DynamicSPARQL.dll</HintPath>
+      <HintPath>..\packages\DynamicSPARQL.1.0.1.1\lib\net45\DynamicSPARQL.dll</HintPath>
     </Reference>
-    <Reference Include="DynamicSPARQL.BrightstarDB, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DynamicSPARQL.BrightstarDB, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DynamicSPARQL.BrightstarDB.1.0.0.2\lib\net45\DynamicSPARQL.BrightstarDB.dll</HintPath>
+      <HintPath>..\packages\DynamicSPARQL.BrightstarDB.1.0.1.1\lib\net45\DynamicSPARQL.BrightstarDB.dll</HintPath>
     </Reference>
     <Reference Include="HelperExtensionsLibrary, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -52,15 +52,15 @@
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BrightstarDB.1.5.2.0\lib\net40\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BrightstarDB.1.5.2.0\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq, Version=1.13.122.1, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BrightstarDB.1.5.2.0\lib\net40\Remotion.Linq.dll</HintPath>
+      <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\Remotion.Linq.dll</HintPath>
     </Reference>
     <Reference Include="Should">
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
@@ -77,7 +77,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="VDS.Common, Version=1.2.0.0, Culture=neutral, PublicKeyToken=ab5f4eb908061bf0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BrightstarDB.1.5.2.0\lib\net40\VDS.Common.dll</HintPath>
+      <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\VDS.Common.dll</HintPath>
     </Reference>
     <Reference Include="xunit">
       <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
@@ -92,24 +92,16 @@
     <Compile Include="FilterBy.Fixture.cs" />
     <Compile Include="GroupBy.Fixture.cs" />
     <Compile Include="Limit.Fixture.cs" />
-    <Compile Include="MyEntityContext.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MyEntityContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Negation.Fixture.cs" />
     <Compile Include="Optional.Fixture.cs" />
     <Compile Include="OrderBy.Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Select.Fixture.cs" />
     <Compile Include="TestDataProvider.cs" />
+    <Compile Include="Update.Fixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="MyEntityContext.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MyEntityContext.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

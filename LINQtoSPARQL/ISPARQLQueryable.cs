@@ -14,15 +14,12 @@ namespace LINQtoSPARQLSpace
     {
         ISPARQLQueryProvider Provider { get; }
         Expression Expression { get; }
+        /// <summary>
+        /// Print of last query
+        /// </summary>
+        string LastQueryPrint { get; }
     }
-    /// <summary>
-    /// Interface of SPARQL query provider
-    /// </summary>
-    public interface ISPARQLQueryProvider : IQueryProvider
-    {
-        ISPARQLQueryable<T> CreateSPARQLQuery<T>(Expression expression);
-        IEnumerable<T> ExecuteEnumerable<T>(Expression expression);
-    }
+
     /// <summary>
     /// Match query expression interface
     /// </summary>

@@ -54,6 +54,18 @@ namespace LINQtoSPARQLSpace
             }
         }
 
+        public object ExecuteUpdate(Expression expression)
+        {
+            var translator = this.Translate(expression);
+
+            if (translator.InsertClause == null)
+                return Dyno.Delete(prefixes: translator.Prefixes, where: translator.WhereClause, delete: translator.DeleteClause);
+            else if (translator.DeleteClause == null)
+                return Dyno.Insert(prefixes: translator.Prefixes, where: translator.WhereClause, insert: translator.InsertClause);
+            else
+                return Dyno.Update(prefixes: translator.Prefixes, where: translator.WhereClause, delete: translator.DeleteClause, insert: translator.InsertClause);
+        }
+
         public string GetQueryText(Expression expression)
         {
             var translator = this.Translate(expression);
@@ -81,6 +93,11 @@ namespace LINQtoSPARQLSpace
         public ISPARQLQueryable<T> CreateSPARQLQuery<T>(Expression expression)
         {
             return new SPARQLQueryInternal<T>(this, expression);
+        }
+
+        public string LastQueryPrint 
+        {
+            get { return Dyno.LastQueryPrint; } 
         }
     }
 }

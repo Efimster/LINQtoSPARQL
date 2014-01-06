@@ -7,6 +7,9 @@ using DynamicSPARQLSpace;
 using VDS.RDF;
 using VDS.RDF.Query;
 using System.Xml;
+using VDS.RDF.Update;
+using VDS.RDF.Parsing;
+using VDS.RDF.Query.Datasets;
 
 namespace LINQtoSPARQLSpace.Tests
 {
@@ -16,12 +19,23 @@ namespace LINQtoSPARQLSpace.Tests
         {
             var graph = new Graph();
             graph.LoadFromString(data);
+            var processor = new LeviathanUpdateProcessor(new InMemoryDataset(graph));
 
-            Func<string, SparqlResultSet> queringFunction = xquery => {
-                return graph.ExecuteQuery(xquery) as SparqlResultSet;
-                
-            }; 
-            dynamic dyno = DynamicSPARQL.CreateDyno(queringFunction, autoquotation, treatUri);
+
+
+            Func<string, SparqlResultSet> sendSPARQLQuery =
+                xquery => graph.ExecuteQuery(xquery) as SparqlResultSet;
+            Func<string, object> updateSPARQL = uquery =>
+            {
+                processor.ProcessCommandSet(new SparqlUpdateParser().ParseFromString(uquery));
+                return 0;
+            };
+
+            dynamic dyno = DynamicSPARQL.CreateDyno(sendSPARQLQuery,
+                updateFunc: updateSPARQL,
+                autoquotation: autoquotation,
+                treatUri: treatUri);
+
             return new SPARQLQuery<T>(dyno);
         }
     }
