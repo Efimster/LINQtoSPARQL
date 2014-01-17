@@ -13,8 +13,8 @@ namespace LINQtoSPARQLSpace
     internal class SPARQLQueryTranslator : ExpressionVisitor
     {
         private LinkedList<IList<IWhereItem>> Groups {get; set;}
-        private readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or", "Minus", "Exists", "NotExists"};
-        private readonly string[] ClauseMethods = { "Delete","Insert" };
+        private static readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or", "Minus", "Exists", "NotExists"};
+        private static readonly string[] ClauseMethods = { "Delete","Insert" };
         /// <summary>
         /// Where clause
         /// </summary>

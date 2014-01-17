@@ -24,7 +24,7 @@ namespace LINQtoSPARQLSpace
     /// Match query expression interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISPARQLMatchedQueryable<T> : ISPARQLQueryable<T>{}
+    public interface ISPARQLMatchedQueryable<T> : ISPARQLQueryable<T> {}
     /// <summary>
     /// Union/Either query expression interface
     /// </summary>
@@ -34,7 +34,15 @@ namespace LINQtoSPARQLSpace
     /// Typed interface of SPARQL LINQ query
     /// </summary>
     /// <typeparam name="T">element type</typeparam>
-    public interface ISPARQLQueryable<T> : ISPARQLQueryable { }
+    public interface ISPARQLQueryable<T> : ISPARQLQueryable 
+    {
+        /// <summary>
+        /// Merges two queries
+        /// </summary>
+        /// <param name="otherQuery">other query to merge</param>
+        /// <returns>resulting query</returns>
+        ISPARQLQueryable<T> Merge(ISPARQLQueryable<T> otherQuery);
+    }
     /// <summary>
     /// Bind query expression interface
     /// </summary>

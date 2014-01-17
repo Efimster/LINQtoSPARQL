@@ -70,14 +70,24 @@ namespace LINQtoSPARQLSpace
         {
             var translator = this.Translate(expression);
             
-            string query = new string[] { translator.Prefixes.GetPrefixesString(),
-                translator.SelectClause,
-                translator.WhereClause.ToString(),
-                translator.GroupByClause,
-                translator.HavingClause, 
-                translator.OrderByClause,
-                translator.LimitClause.ToString(),
-                translator.OffsetClause.ToString()}.Join2String(Environment.NewLine);
+            string query = 
+                string.Join(Environment.NewLine,
+                    translator.Prefixes.GetPrefixesString(),
+                    translator.SelectClause,
+                    translator.WhereClause != null ? "WHERE "
+                                + translator.WhereClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false)
+                            : string.Empty,
+                    translator.DeleteClause != null ? "DELETE " 
+                                + translator.DeleteClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false) 
+                            : string.Empty,
+                    translator.InsertClause != null ? "INSERT " 
+                                + translator.InsertClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false) 
+                            : string.Empty,
+                    translator.GroupByClause,
+                    translator.HavingClause, 
+                    translator.OrderByClause,
+                    translator.LimitClause.ToString(),
+                    translator.OffsetClause.ToString()).Trim('\r','\n');
             
             return query;
         }
@@ -98,6 +108,31 @@ namespace LINQtoSPARQLSpace
         public string LastQueryPrint 
         {
             get { return Dyno.LastQueryPrint; } 
+        }
+
+
+        //public ISPARQLQueryable Merge(Expression expression, ISPARQLQueryable otherQuery)
+        //{
+        //    var translator1 = this.Translate(otherQuery.Expression);
+        //    var translator2 = this.Translate(otherQuery.Expression);
+
+        //    var prefixes = translator1.Prefixes.Union(translator2.Prefixes);
+        //    var deleteClause = MergeGroups(translator1.DeleteClause, translator2.DeleteClause);
+
+        //    return null;
+        //}
+
+        //private Group MergeGroups(Group group1, Group group2)
+        //{
+        //    return SPARQL.Group(group1.Items.Union(group2.Items).ToArray());
+        //}
+
+        public ISPARQLQueryable<T> Merge<T>(ISPARQLQueryable<T> baseQuery, ISPARQLQueryable<T> otherQuery)
+        {
+            var translator = new SPARQLMergeTranslator();
+
+            return (ISPARQLMatchedQueryable<T>)CreateSPARQLQuery<T>(translator.Merge(baseQuery.Expression, otherQuery.Expression));
+        
         }
     }
 }

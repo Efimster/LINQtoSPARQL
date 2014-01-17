@@ -38,9 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\BrightstarDB.1.5.3.0\lib\net40\dotNetRDF.dll</HintPath>
     </Reference>
-    <Reference Include="DynamicSPARQL, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DynamicSPARQL, Version=1.0.1.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DynamicSPARQL.1.0.1.1\lib\net45\DynamicSPARQL.dll</HintPath>
+      <HintPath>..\packages\DynamicSPARQL.1.0.1.2\lib\net45\DynamicSPARQL.dll</HintPath>
     </Reference>
     <Reference Include="DynamicSPARQL.BrightstarDB, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,6 +92,7 @@
     <Compile Include="FilterBy.Fixture.cs" />
     <Compile Include="GroupBy.Fixture.cs" />
     <Compile Include="Limit.Fixture.cs" />
+    <Compile Include="Merge.Fixture.cs" />
     <Compile Include="Negation.Fixture.cs" />
     <Compile Include="Optional.Fixture.cs" />
     <Compile Include="OrderBy.Fixture.cs" />

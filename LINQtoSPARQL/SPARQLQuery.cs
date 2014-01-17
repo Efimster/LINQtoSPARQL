@@ -70,6 +70,12 @@ namespace LINQtoSPARQLSpace
         {
             return provider.GetQueryText(expression);
         }
+
+        public ISPARQLQueryable<T> Merge(ISPARQLQueryable<T> otherQuery)
+        {
+            return provider.Merge<T>(this, otherQuery);
+        }
+
     }
 
 

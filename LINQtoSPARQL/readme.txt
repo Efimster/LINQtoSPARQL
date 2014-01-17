@@ -164,3 +164,13 @@ SPARQL Update:
                 .Delete()
                 .Prefix("foaf", "http://xmlns.com/foaf/0.1/")
                 .ExecuteUpdate();
+
+Merging:
+...
+
+ ISPARQLQueryable<T> source = ...
+
+ ISPARQLQueryable<T> query = source.Match("?w1 ?w2 ?w3").Insert().Match("?i1 ?i2 ?i3").Delete().Match("?d1 ?d2 ?d3").And("?d4 ?d5");
+ ISPARQLQueryable<T> query2 = source.Match("?w4 ?w5 ?w6").And("?w7 ?w8").Delete().Match("?d6 ?d7 ?d8").Insert().Match("?i4 ?i5 ?i6");
+ 
+ ISPARQLQueryable<T> mergedQuery = query.Merge(query2);
