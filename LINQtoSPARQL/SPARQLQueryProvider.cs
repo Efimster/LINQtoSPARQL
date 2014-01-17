@@ -72,7 +72,7 @@ namespace LINQtoSPARQLSpace
             
             string query = 
                 string.Join(Environment.NewLine,
-                    translator.Prefixes.GetPrefixesString(),
+                  (Dyno.Prefixes.Concat(translator.Prefixes)).GetPrefixesString(),  
                     translator.SelectClause,
                     translator.WhereClause != null ? "WHERE "
                                 + translator.WhereClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false)
