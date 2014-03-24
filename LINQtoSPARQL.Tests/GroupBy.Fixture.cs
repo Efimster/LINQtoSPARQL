@@ -10,7 +10,7 @@ namespace LINQtoSPARQLSpace.Tests
 {
     public class GroupByFixture
     {
-        [Theory(DisplayName = "Group By & Having"),
+        [Theory(DisplayName = "Group By & Having"), Xunit.Trait("SPARQL Query", ""),
         InlineData(@"@prefix : <http://books.example/> .
             :org1 :affiliates :auth1, :auth2 .
             :auth1 :writesBook :book1, :book2 .

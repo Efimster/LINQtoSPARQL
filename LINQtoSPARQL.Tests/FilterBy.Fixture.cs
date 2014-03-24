@@ -11,7 +11,7 @@ namespace LINQtoSPARQLSpace.Tests
 {
     public class FilterByFixture
     {
-        [Theory(DisplayName = "Filtering(Restricting the Value of Strings) "),
+        [Theory(DisplayName = "Filtering(Restricting the Value of Strings) "), Xunit.Trait("SPARQL Query", ""),
         InlineData(@"@prefix dc:   <http://purl.org/dc/elements/1.1/> .
                 @prefix :     <http://example.org/book/> .
                 @prefix ns:   <http://example.org/ns#> .

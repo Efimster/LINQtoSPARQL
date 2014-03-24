@@ -10,7 +10,7 @@ namespace LINQtoSPARQLSpace.Tests
 {
     public class SelectFixture
     {
-        [Theory(DisplayName = "Typed query"),
+        [Theory(DisplayName = "Typed query"), Xunit.Trait("SPARQL Query", ""),
         InlineData(@"@prefix foaf:       <http://xmlns.com/foaf/0.1/> .
                     @prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -40,7 +40,7 @@ namespace LINQtoSPARQLSpace.Tests
             list.Where(x => x.Name == "Bob" && x.MBox == null && x.Rating == 5).Count().Should().Equal(1);
         }
 
-        [Theory(DisplayName = "DYNAMIC Match"),
+        [Theory(DisplayName = "DYNAMIC Match"), Xunit.Trait("SPARQL Query", ""),
    InlineData(@"@prefix foaf:       <http://xmlns.com/foaf/0.1/> .
                     @prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -55,7 +55,6 @@ namespace LINQtoSPARQLSpace.Tests
         public void TestProjection2(string data)
         {
             var query = TestDataProvider.GetQuerable<Person>(data);
-
             var list = query.Match(s: "?x", p: "foaf:name", o: o => o.Name)
                 .Optional(s: "?x", p: "foaf:mbox", o: o => o.MBox)
                 .Optional(s: "?x", p: "foaf:rating", o: o => o.Rating).And(p: "foaf:rating", o: 5).End()

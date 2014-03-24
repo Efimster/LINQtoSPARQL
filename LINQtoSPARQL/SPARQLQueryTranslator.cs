@@ -13,7 +13,7 @@ namespace LINQtoSPARQLSpace
     internal class SPARQLQueryTranslator : ExpressionVisitor
     {
         private LinkedList<IList<IWhereItem>> Groups {get; set;}
-        private static readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or", "Minus", "Exists", "NotExists"};
+        private static readonly string[] GroupingMethods = {"Optional", "Group", "Either", "Or", "Minus", "Exists", "NotExists", "Graph"};
         private static readonly string[] ClauseMethods = { "Delete","Insert" };
         /// <summary>
         /// Where clause
@@ -59,6 +59,27 @@ namespace LINQtoSPARQLSpace
         /// Insert clause
         /// </summary>
         public Group InsertClause { get; private set; }
+        /// <summary>
+        /// FROM clause
+        /// </summary>
+        public From FromClause { get; private set; }
+        /// <summary>
+        /// FROM NAMED clause
+        /// </summary>
+        public IEnumerable<FromNamed> FromNamedClause { get; private set; }
+        /// <summary>
+        /// WITH clause
+        /// </summary>
+        public With WithClause { get; private set; }
+        /// <summary>
+        /// USING clause
+        /// </summary>
+        public Using UsingClause { get; private set; }
+        /// <summary>
+        /// USING NAMED clause
+        /// </summary>
+        public IList<UsingNamed> UsingNamedClause { get; private set; }
+
 
         private MethodCallExpression NextMethodCall { get; set; }
 
@@ -70,6 +91,11 @@ namespace LINQtoSPARQLSpace
             SelectClause = null;
             DeleteClause = null;
             InsertClause = null;
+            WithClause = null;
+            UsingClause = null;
+            UsingNamedClause = new List<UsingNamed>(2);
+            FromClause = null;
+            FromNamedClause = new List<FromNamed>(2);
             Prefixes = new List<Prefix>(5);
             Distinct = false;
             this.Visit(expression);
@@ -190,11 +216,17 @@ namespace LINQtoSPARQLSpace
                 case "GroupBy":     GroupByClause = VisitOrderBy(m);break;
                 case "Having":      HavingClause = VisitOrderBy(m);break;
                 case "Limit":       LimitClause = VisitLimit(m);break;
-                case "Offset":      OffsetClause = VisitLimit(m);break;
+                case "Offset":      OffsetClause = VisitOffset(m);break;
                 case "Prefix":      VisitPrefix(m); break;
                 //case "Bind":
                 case "As":          ret = VisitBindAs(nextMethodCall,m); break;
                 case "Distinct":    VisitDistinct(m); break;
+                case "From":        FromClause = VisitFrom(m); break;
+                case "FromNamed":   VisitFromNamed(m); break;
+                case "Using":       UsingClause = VisitUsing(m); break;
+                case "UsingNamed":  VisitUsingNamed(m); break;
+                case "With":        WithClause = VisitWith(m); break;
+                case "Graph":       ret = VisitGraph(m); break;
             }
 
             if (ret == null)
@@ -454,6 +486,63 @@ namespace LINQtoSPARQLSpace
         {
             Distinct = true;
         }
+        /// <summary>
+        /// Evaluates From expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        private From VisitFrom(MethodCallExpression m)
+        {
+            string iri = (string)((ConstantExpression)m.Arguments[1]).Value;
+            return new From(iri);
+        }
+        /// <summary>
+        /// Evaluates FromNamed expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        private void VisitFromNamed(MethodCallExpression m)
+        {
+            //fix in next version! one iri can be specified per expresion only! see UsingNamed expression
+            //string iri = (string)((ConstantExpression)m.Arguments[1]).Value;
+            FromNamedClause = FromNamedClause.Concat(FromNamed.Parse(((ConstantExpression)m.Arguments[1]).Value));
+        }
+        /// <summary>
+        /// Evaluates Using expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        private Using VisitUsing(MethodCallExpression m)
+        {
+            string iri = (string)((ConstantExpression)m.Arguments[1]).Value;
+            return new Using(iri);
+        }
+        /// <summary>
+        /// Evaluates UsingNamed expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        private void VisitUsingNamed(MethodCallExpression m)
+        {
+            string iri = (string)((ConstantExpression)m.Arguments[1]).Value;
+            UsingNamedClause.Add(new UsingNamed(iri));
+        }
+        /// <summary>
+        /// Evaluates With expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        private With VisitWith(MethodCallExpression m)
+        {
+            string iri = (string)((ConstantExpression)m.Arguments[1]).Value;
+            return new With(iri);
+        }
+        /// <summary>
+        /// Evaluates Graph expression
+        /// </summary>
+        /// <param name="m">method call expression</param>
+        /// <returns>SPARQL Where clause item</returns>
+        private IWhereItem VisitGraph(MethodCallExpression m)
+        {
+            string iri = (string)((ConstantExpression)m.Arguments[1]).Value;
+            return new Graph(iri);
+        }
+
 
 
     }

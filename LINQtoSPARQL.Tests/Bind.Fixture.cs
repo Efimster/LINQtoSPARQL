@@ -10,7 +10,7 @@ namespace LINQtoSPARQLSpace.Tests
 {
     public class BindFixture
     {
-        [Theory(DisplayName = "Binding"),
+        [Theory(DisplayName = "Binding"), Xunit.Trait("SPARQL Query", ""),
         InlineData(@"@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
             _:a  foaf:givenName   ""John"" .
             _:a  foaf:surname  ""Doe"" .")]

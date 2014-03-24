@@ -47,7 +47,9 @@ namespace LINQtoSPARQLSpace
                     having:translator.HavingClause,
                     orderBy: translator.OrderByClause,
                     limit: translator.LimitClause.ToString(),
-                    offset: translator.OffsetClause.ToString())
+                    offset: translator.OffsetClause.ToString(),
+                    from: translator.FromClause,
+                    fromNamed:translator.FromNamedClause)
                 )
             {
                 yield return res;
@@ -63,32 +65,41 @@ namespace LINQtoSPARQLSpace
             else if (translator.DeleteClause == null)
                 return Dyno.Insert(prefixes: translator.Prefixes, where: translator.WhereClause, insert: translator.InsertClause);
             else
-                return Dyno.Update(prefixes: translator.Prefixes, where: translator.WhereClause, delete: translator.DeleteClause, insert: translator.InsertClause);
+                return Dyno.Update(prefixes: translator.Prefixes, where: translator.WhereClause, 
+                    delete: translator.DeleteClause, insert: translator.InsertClause,
+                    with:translator.WithClause, usingClause:translator.UsingClause, usingNamed:translator.UsingNamedClause);
         }
 
         public string GetQueryText(Expression expression)
         {
             var translator = this.Translate(expression);
-            
-            string query = 
-                string.Join(Environment.NewLine,
-                  (Dyno.Prefixes.Concat(translator.Prefixes)).GetPrefixesString(),  
-                    translator.SelectClause,
-                    translator.WhereClause != null ? "WHERE "
-                                + translator.WhereClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false)
-                            : string.Empty,
+            IEnumerable<string> parts = new []
+            {
+                    Prefix.Collection2String(Dyno.Prefixes.Concat(translator.Prefixes)),  
+                    translator.WithClause != null ? translator.WithClause.ToString() : null,
                     translator.DeleteClause != null ? "DELETE " 
                                 + translator.DeleteClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false) 
                             : string.Empty,
                     translator.InsertClause != null ? "INSERT " 
                                 + translator.InsertClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false) 
                             : string.Empty,
+                    translator.UsingClause != null ? translator.UsingClause.ToString() : null,
+                    UsingNamed.Collection2String(translator.UsingNamedClause),
+                    translator.SelectClause,
+                    translator.FromClause != null ? translator.FromClause.ToString() : null,
+                    FromNamed.Collection2String(translator.FromNamedClause),
+                    translator.WhereClause != null ? "WHERE "
+                                + translator.WhereClause.ToString(Dyno.AutoQuotation, Dyno.SkipTriplesWithEmptyObject, false)
+                            : string.Empty,
+
                     translator.GroupByClause,
                     translator.HavingClause, 
                     translator.OrderByClause,
                     translator.LimitClause.ToString(),
-                    translator.OffsetClause.ToString()).Trim('\r','\n');
+                    translator.OffsetClause.ToString()
+            };
             
+            string query = string.Join(Environment.NewLine, parts.Where(part => !string.IsNullOrEmpty(part)));
             return query;
         }
 

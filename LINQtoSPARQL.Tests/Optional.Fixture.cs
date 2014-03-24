@@ -12,7 +12,7 @@ namespace LINQtoSPARQLSpace.Tests
     public class OptionalFixture
     {
 
-        [Theory(DisplayName = "Optional Pattern Matching"),
+        [Theory(DisplayName = "Optional Pattern Matching"), Xunit.Trait("SPARQL Query", ""),
         InlineData(@"@prefix foaf:       <http://xmlns.com/foaf/0.1/> .
                     @prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -41,7 +41,7 @@ namespace LINQtoSPARQLSpace.Tests
 
         }
 
-        [Theory(DisplayName = "Constraints in Optional Pattern Matching"),
+        [Theory(DisplayName = "Constraints in Optional Pattern Matching"), Xunit.Trait("SPARQL Query", ""),
              InlineData(@"@prefix dc:   <http://purl.org/dc/elements/1.1/> .
             @prefix :     <http://example.org/book/> .
             @prefix ns:   <http://example.org/ns#> .
@@ -69,7 +69,7 @@ namespace LINQtoSPARQLSpace.Tests
 
         }
 
-        [Theory(DisplayName = "Multiple Optional Graph Patterns"),
+        [Theory(DisplayName = "Multiple Optional Graph Patterns"), Xunit.Trait("SPARQL Query", ""),
             InlineData(@"@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
             _:a  foaf:name       ""Alice"" .
             _:a  foaf:homepage   ""http://work.example.org/alice/"" .

@@ -10,7 +10,7 @@ namespace LINQtoSPARQLSpace.Tests
 {
     public class OrderByFixture
     {
-        [Theory(DisplayName = "Order by "),
+        [Theory(DisplayName = "Order by "), Xunit.Trait("SPARQL Query", ""),
         InlineData(@"@prefix dc:   <http://purl.org/dc/elements/1.1/> .
                 @prefix :     <http://example.org/book/> .
                 @prefix ns:   <http://example.org/ns#> .

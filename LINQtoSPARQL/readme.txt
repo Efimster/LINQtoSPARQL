@@ -1,4 +1,6 @@
-﻿LINQtoSPARQL is specific LINQ to SPARQ for RDF sources quering
+﻿LINQtoSPARQL is specific LINQ to SPARQ. Dynamically scaffolds SPARQL queries by using LINQ style.
+Built on top of DynamicSPARQL project https://github.com/Efimster/DynamicSPARQL/wiki.
+Please visit project wiki pages https://github.com/Efimster/LINQtoSPARQL/wiki . 
 
 Quering expressions:
 	Match() - Triple match pattern expression (Subject Predicate Object)
