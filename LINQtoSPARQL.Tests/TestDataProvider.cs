@@ -10,6 +10,7 @@ using System.Xml;
 using VDS.RDF.Update;
 using VDS.RDF.Parsing;
 using VDS.RDF.Query.Datasets;
+using DynamicSPARQLSpace.dotNetRDF;
 
 namespace LINQtoSPARQLSpace.Tests
 {
@@ -24,36 +25,24 @@ namespace LINQtoSPARQLSpace.Tests
             bool useStore = false,
             string defaultGraphUri = "http://test.org/defaultgraph")
         {
-            InMemoryDataset dataset;
-            Func<string, SparqlResultSet> sendSPARQLQuery;
+            DynamicSPARQLSpace.dotNetRDF.Connector connector = null;
 
             if (useStore)
             {
                 var store = new VDS.RDF.TripleStore();
-                dataset = new InMemoryDataset(store, new Uri(defaultGraphUri));
-
                 store.LoadFromString(data);
-                var queryProcessor = new LeviathanQueryProcessor(dataset);
-                sendSPARQLQuery = xquery => queryProcessor.ProcessQuery(new SparqlQueryParser().ParseFromString(xquery)) as SparqlResultSet;
+                connector = new Connector(new InMemoryDataset(store, new Uri(defaultGraphUri)));
             }
             else
             {
                 var graph = new VDS.RDF.Graph();
                 graph.LoadFromString(data);
-                dataset = new InMemoryDataset(graph);
-                sendSPARQLQuery = xquery => graph.ExecuteQuery(new SparqlQueryParser().ParseFromString(xquery)) as SparqlResultSet;
+                connector = new Connector(new InMemoryDataset(graph));
             }
 
-            var updProcessor = new LeviathanUpdateProcessor(dataset);
 
-            Func<string, object> updateSPARQL = uquery =>
-            {
-                updProcessor.ProcessCommandSet(new SparqlUpdateParser().ParseFromString(uquery));
-                return 0;
-            };
-
-            dynamic dyno = DynamicSPARQL.CreateDyno(sendSPARQLQuery,
-                updateFunc: updateSPARQL,
+            dynamic dyno = DynamicSPARQL.CreateDyno(connector.GetQueringFunction(), 
+                updateFunc: connector.GetUpdateFunction(),
                 autoquotation: autoquotation,
                 treatUri: treatUri,
                 prefixes:prefixes,

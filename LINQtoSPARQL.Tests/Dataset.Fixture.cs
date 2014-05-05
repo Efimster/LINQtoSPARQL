@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DynamicSPARQLSpace;
+﻿using System.Linq;
 using Should.Fluent;
-using VDS.RDF;
-using VDS.RDF.Query;
 using Xunit.Extensions;
 
 namespace LINQtoSPARQLSpace.Tests
