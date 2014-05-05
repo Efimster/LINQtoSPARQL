@@ -41,7 +41,7 @@ namespace LINQtoSPARQLSpace.Tests
             }
 
 
-            dynamic dyno = DynamicSPARQL.CreateDyno(connector.GetQueringFunction(), 
+            dynamic dyno = DynamicSPARQL.CreateDyno(connector.GetQueryingFunction(), 
                 updateFunc: connector.GetUpdateFunction(),
                 autoquotation: autoquotation,
                 treatUri: treatUri,

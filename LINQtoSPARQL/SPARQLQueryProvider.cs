@@ -85,7 +85,7 @@ namespace LINQtoSPARQLSpace
                             : string.Empty,
                     translator.UsingClause != null ? translator.UsingClause.ToString() : null,
                     UsingNamed.Collection2String(translator.UsingNamedClause),
-                    translator.SelectClause,
+                    !string.IsNullOrEmpty(translator.SelectClause) ? "SELECT " + translator.SelectClause : string.Empty,
                     translator.FromClause != null ? translator.FromClause.ToString() : null,
                     FromNamed.Collection2String(translator.FromNamedClause),
                     translator.WhereClause != null ? "WHERE "

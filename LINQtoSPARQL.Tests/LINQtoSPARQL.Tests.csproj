@@ -34,11 +34,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\dotNetRDF.1.0.4.3225\lib\net40\dotNetRDF.dll</HintPath>
     </Reference>
-    <Reference Include="DynamicSPARQL, Version=1.0.1.6, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DynamicSPARQL, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DynamicSPARQL.1.0.1.6\lib\net45\DynamicSPARQL.dll</HintPath>
+      <HintPath>..\packages\DynamicSPARQL.1.0.2.1\lib\net45\DynamicSPARQL.dll</HintPath>
     </Reference>
-    <Reference Include="DynamicSPARQL.dotNetRDF">
+    <Reference Include="DynamicSPARQL.dotNetRDF, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DynamicSPARQL.dotNetRDF.1.0.0.1\lib\net45\DynamicSPARQL.dotNetRDF.dll</HintPath>
     </Reference>
     <Reference Include="HelperExtensionsLibrary, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
@@ -49,9 +50,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Should">
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
@@ -107,9 +108,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
