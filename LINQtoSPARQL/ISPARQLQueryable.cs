@@ -29,7 +29,7 @@ namespace LINQtoSPARQLSpace
     /// Union/Either query expression interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISPARQLUnionQueryable<T> : ISPARQLQueryable {}
+    public interface ISPARQLUnionQueryable<T> : ISPARQLQueryable<T> {}
     /// <summary>
     /// Typed interface of SPARQL LINQ query
     /// </summary>
@@ -47,7 +47,7 @@ namespace LINQtoSPARQLSpace
     /// Bind query expression interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISPARQLBindingQueryable<T> : ISPARQLQueryable { }
+    public interface ISPARQLBindingQueryable<T> : ISPARQLQueryable<T> { }
 
 
 }
