@@ -14,14 +14,14 @@ namespace LINQtoSPARQLSpace
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
         /// <returns>query</returns>
-        public static ISPARQLQueryable<T> End<T>(this ISPARQLQueryable<T> source)
+        public static ISPARQLMatchQueryable<T> End<T>(this ISPARQLQueryable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException("source");
             }
 
-            return source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+            return (ISPARQLMatchQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression}));
         }
 
@@ -31,14 +31,14 @@ namespace LINQtoSPARQLSpace
         /// <typeparam name="T">element type</typeparam>
         /// <param name="source">query</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Group<T>(this ISPARQLQueryable<T> source)
+        public static ISPARQLMatchQueryable<T> Group<T>(this ISPARQLQueryable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException("source");
             }
 
-            return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+            return (ISPARQLMatchQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression }));
         }
 
@@ -112,12 +112,12 @@ namespace LINQtoSPARQLSpace
         /// <param name="source">query</param>
         /// <param name="value">as</param>
         /// <returns>query</returns>
-        public static ISPARQLQueryable<T> As<T>(this ISPARQLBindingQueryable<T> source, string value)
+        public static ISPARQLMatchQueryable<T> As<T>(this ISPARQLBindingQueryable<T> source, string value)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
 
-            return source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+            return (ISPARQLMatchQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression, Expression.Constant(value) }));
         }
         /// <summary>

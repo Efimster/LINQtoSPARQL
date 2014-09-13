@@ -79,7 +79,7 @@ namespace LINQtoSPARQLSpace
     }
 
 
-    internal class SPARQLQueryInternal<T> : SPARQLQuery<T>, ISPARQLUnionQueryable<T>, ISPARQLMatchedQueryable<T>, ISPARQLQueryable, ISPARQLBindingQueryable<T>
+    internal class SPARQLQueryInternal<T> : SPARQLQuery<T>, ISPARQLMatchQueryable<T>, ISPARQLQueryable, ISPARQLBindingQueryable<T>
     {
         public SPARQLQueryInternal(SPARQLQueryProvider provider, Expression expression) : base(provider, expression)
         {

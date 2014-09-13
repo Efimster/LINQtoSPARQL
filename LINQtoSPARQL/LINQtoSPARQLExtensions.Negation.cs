@@ -20,14 +20,14 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Minus<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
+        public static ISPARQLMatchQueryable<T> Minus<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
                 throw new ArgumentNullException("source");
             }
 
-            return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+            return (ISPARQLMatchQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression, Expression.Constant(s, typeof(string)), Expression.Constant(p), Expression.Constant(o) }));
         }
         /// <summary>
@@ -39,9 +39,9 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Minus<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
+        public static ISPARQLMatchQueryable<T> Minus<T>(this ISPARQLMatchQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)Minus<T>((ISPARQLQueryable<T>)source, s, p, o);
+            return (ISPARQLMatchQueryable<T>)Minus<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="source">query</param>
         /// <param name="triple">triple</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Minus<T>(this ISPARQLQueryable<T> source, string triple)
+        public static ISPARQLMatchQueryable<T> Minus<T>(this ISPARQLQueryable<T> source, string triple)
         {
             var nodes = triple.SplitExt(" ").ToArray();
             return source.Minus(s: nodes[0], p: nodes[1], o: nodes[2]);
@@ -65,14 +65,14 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Exists<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
+        public static ISPARQLMatchQueryable<T> Exists<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
                 throw new ArgumentNullException("source");
             }
 
-            return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+            return (ISPARQLMatchQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression, Expression.Constant(s, typeof(string)), Expression.Constant(p), Expression.Constant(o) }));
         }
         /// <summary>
@@ -84,9 +84,9 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> Exists<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
+        public static ISPARQLMatchQueryable<T> Exists<T>(this ISPARQLMatchQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)Exists<T>((ISPARQLQueryable<T>)source, s, p, o);
+            return (ISPARQLMatchQueryable<T>)Exists<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="source">query</param>
         /// <param name="triple">triple</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> Exists<T>(this ISPARQLQueryable<T> source, string triple)
+        public static ISPARQLMatchQueryable<T> Exists<T>(this ISPARQLQueryable<T> source, string triple)
         {
             var nodes = triple.SplitExt(" ").ToArray();
             return source.Exists(s: nodes[0], p: nodes[1], o: nodes[2]);
@@ -110,14 +110,14 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> NotExists<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
+        public static ISPARQLMatchQueryable<T> NotExists<T>(this ISPARQLQueryable<T> source, string s, string p, dynamic o)
         {
             if (source == null)
             {
                 throw new ArgumentNullException("source");
             }
 
-            return (ISPARQLMatchedQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
+            return (ISPARQLMatchQueryable<T>)source.Provider.CreateSPARQLQuery<T>(Expression.Call(null, ((MethodInfo)MethodBase.GetCurrentMethod()).MakeGenericMethod(new Type[] { typeof(T) }),
                 new Expression[] { source.Expression, Expression.Constant(s, typeof(string)), Expression.Constant(p), Expression.Constant(o) }));
         }
         /// <summary>
@@ -129,9 +129,9 @@ namespace LINQtoSPARQLSpace
         /// <param name="p">predicate</param>
         /// <param name="o">object</param>
         /// <returns>query</returns>
-        public static ISPARQLUnionQueryable<T> NotExists<T>(this ISPARQLUnionQueryable<T> source, string s, string p, dynamic o)
+        public static ISPARQLMatchQueryable<T> NotExists<T>(this ISPARQLMatchQueryable<T> source, string s, string p, dynamic o)
         {
-            return (ISPARQLUnionQueryable<T>)NotExists<T>((ISPARQLQueryable<T>)source, s, p, o);
+            return (ISPARQLMatchQueryable<T>)NotExists<T>((ISPARQLQueryable<T>)source, s, p, o);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace LINQtoSPARQLSpace
         /// <param name="source">query</param>
         /// <param name="triple">triple</param>
         /// <returns>query</returns>
-        public static ISPARQLMatchedQueryable<T> NotExists<T>(this ISPARQLQueryable<T> source, string triple)
+        public static ISPARQLMatchQueryable<T> NotExists<T>(this ISPARQLQueryable<T> source, string triple)
         {
             var nodes = triple.SplitExt(" ").ToArray();
             return source.NotExists(s: nodes[0], p: nodes[1], o: nodes[2]);

@@ -142,7 +142,7 @@ namespace LINQtoSPARQLSpace
         {
             var translator = new SPARQLMergeTranslator();
 
-            return (ISPARQLMatchedQueryable<T>)CreateSPARQLQuery<T>(translator.Merge(baseQuery.Expression, otherQuery.Expression));
+            return (ISPARQLMatchQueryable<T>)CreateSPARQLQuery<T>(translator.Merge(baseQuery.Expression, otherQuery.Expression));
         
         }
     }
